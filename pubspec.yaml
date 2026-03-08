@@ -1,0 +1,16 @@
+name: test_media_generator
+description: Test Media Generator.
+version: 0.0.1
+publish_to: none # Remove this line if you wish to publish to pub.dev
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.11.0
+
+# Add regular dependencies here.
+dependencies:
+  args: 2.7.0
+
+dev_dependencies:
+  dart_lintz: 1.2.1
+  test: 1.25.6
