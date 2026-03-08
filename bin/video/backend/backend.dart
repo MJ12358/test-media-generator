@@ -11,11 +11,11 @@ abstract class Backend {
   String get name;
 
   /// The filter string to be used with this backend.
-  String get filter;
+  String? get filter => null;
 
   /// A list of command-line arguments required to set up the
   /// hardware device for this backend.
-  List<String> get hwDeviceArgs;
+  List<String> get hwDeviceArgs => <String>[];
 
   /// A boolean indicating whether this backend is available
   /// on the current system.
