@@ -1,6 +1,8 @@
 import 'package:args/args.dart';
 
+import 'audio/audio_generator.dart';
 import 'core/logger.dart';
+import 'images/image_generator.dart';
 import 'video/video_generator.dart';
 
 const String version = '0.0.1';
@@ -47,25 +49,41 @@ void main(List<String> arguments) async {
       _printUsage(argParser);
       return;
     }
+
+    // Print version information if the --version flag is provided.
     if (results.flag('version')) {
       log.i('test_media_generator version: $version');
       return;
     }
+
+    // Check if the 'generate' command was used and set the appropriate flags.
     if (results.command?.name == 'generate') {
       generateAudio = results.command!.flag('audio');
       generateImages = results.command!.flag('images');
       generateVideos = results.command!.flag('videos');
     }
 
+    // Generate audio
     if (generateAudio) {
-      log.w('Audio generation is not implemented yet.');
+      final AudioGenerator generator = AudioGenerator();
+      await generator.generate();
     }
+
+    // Generate images
     if (generateImages) {
-      log.w('Image generation is not implemented yet.');
+      final ImageGenerator generator = ImageGenerator();
+      await generator.generate();
     }
+
+    // Generate videos
     if (generateVideos) {
       final VideoGenerator generator = VideoGenerator();
       await generator.generate();
+    }
+
+    // If no generation type was specified, print an error message.
+    if (!generateAudio && !generateImages && !generateVideos) {
+      log.e('No generation type specified. Use --help for usage information.');
     }
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.

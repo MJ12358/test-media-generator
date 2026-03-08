@@ -62,14 +62,14 @@ class VideoGenerator {
     final String outputPath = '$_outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
-      log.w('Skipping (exists): $outputPath');
+      log.w('Skipping (exists): $filename');
       return;
     }
 
     try {
       final String encoder = EncoderMapper.getName(codec, backend);
-      final String filter = codec is MJPEG || codec is MPEG2
-          ? 'null'
+      final String? filter = codec is MJPEG || codec is MPEG2
+          ? null
           : backend.filter;
 
       final List<String> args = <String>[];
@@ -91,7 +91,9 @@ class VideoGenerator {
       ]);
 
       // Codec and filter args
-      args.addAll(<String>['-vf', filter]);
+      if (filter != null) {
+        args.addAll(<String>['-vf', filter]);
+      }
 
       if (_needsStrictExperimental(encoder)) {
         args.addAll(<String>['-strict', '-2']);
@@ -118,8 +120,17 @@ class VideoGenerator {
       log.i('Encoding: $filename');
       final ProcessResult result = await Process.run('ffmpeg', args);
 
-      if (result.exitCode != 0) {
+      final File file = File(outputPath);
+
+      // Check if the encoding was successful and the output file is valid.
+      if (result.exitCode != 0 ||
+          !file.existsSync() ||
+          file.lengthSync() == 0) {
         log.e('Error encoding $filename: ${result.stderr}');
+        // Clean up any invalid output file.
+        if (file.existsSync()) {
+          file.deleteSync();
+        }
       }
     } on UnsupportedException catch (e) {
       log.w(e.message);

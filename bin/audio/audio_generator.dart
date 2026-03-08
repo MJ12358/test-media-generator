@@ -51,7 +51,7 @@ class AudioGenerator {
     final String outputPath = '$_outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
-      log.w('Skipping (exists): $outputPath');
+      log.w('Skipping (exists): $filename');
       return;
     }
 
@@ -79,8 +79,17 @@ class AudioGenerator {
     try {
       final ProcessResult result = await Process.run('ffmpeg', args);
 
-      if (result.exitCode != 0) {
+      final File file = File(outputPath);
+
+      // Check if the encoding was successful and the output file is valid.
+      if (result.exitCode != 0 ||
+          !file.existsSync() ||
+          file.lengthSync() == 0) {
         log.e('Error encoding $filename: ${result.stderr}');
+        // Clean up any invalid output file.
+        if (file.existsSync()) {
+          file.deleteSync();
+        }
       }
     } catch (e) {
       log.e('Exception encoding $filename: $e');
