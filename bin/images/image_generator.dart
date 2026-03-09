@@ -3,7 +3,6 @@ part of images;
 class ImageGenerator implements Generator {
   final String _outputDir = Config.outputDir;
   final String _fontPath = Config.fontPath;
-  final List<Size> _sizes = Config.sizes;
 
   ImageGenerator() {
     Directory(_outputDir).createSync(recursive: true);
@@ -91,7 +90,7 @@ class ImageGenerator implements Generator {
   @override
   Future<void> generate() async {
     for (final Codec codec in Config.codecs) {
-      for (final Size size in _sizes) {
+      for (final Size size in codec.sizes) {
         await _encode(codec: codec, size: size);
       }
     }
