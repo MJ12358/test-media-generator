@@ -1,33 +1,30 @@
-import 'dart:io';
+part of images;
 
-import '../core/logger.dart';
-import 'codecs/codec.dart';
-import 'config.dart';
-
-class ImageGenerator {
+class ImageGenerator implements Generator {
   final String _outputDir = Config.outputDir;
   final String _fontPath = Config.fontPath;
-  final List<String> _sizes = Config.sizes;
+  final List<Size> _sizes = Config.sizes;
 
   ImageGenerator() {
     Directory(_outputDir).createSync(recursive: true);
   }
 
-  String _buildFileName(Codec codec, String size, String pixelFormat) {
+  String _getFileName(Codec codec, Size size, PixelFormat pixelFormat) {
     return '${codec.name}_'
-        '${size}_'
-        '$pixelFormat.${codec.extension}';
+        '${size.value}_'
+        '${pixelFormat.value}'
+        '.${codec.extension}';
   }
 
-  String _buildDrawTextFilter(
+  String _getDrawTextFilter(
     String filename,
-    String size,
-    String pixelFormat,
+    Size size,
+    PixelFormat pixelFormat,
   ) {
     return '''
-      nullsrc=s=$size, 
+      nullsrc=s=${size.value}, 
       geq=r=X/W*255:g=Y/H*255:b=128, 
-      format=$pixelFormat, 
+      format=${pixelFormat.value}, 
       drawtext=fontfile=$_fontPath: 
       text='$filename': 
       x=(w-text_w)/2: 
@@ -40,8 +37,8 @@ class ImageGenerator {
     ''';
   }
 
-  Future<void> _encode({required Codec codec, required String size}) async {
-    final String filename = _buildFileName(codec, size, codec.pixelFormat);
+  Future<void> _encode({required Codec codec, required Size size}) async {
+    final String filename = _getFileName(codec, size, codec.pixelFormat);
 
     final String outputPath = '$_outputDir/$filename';
 
@@ -60,7 +57,7 @@ class ImageGenerator {
       '-f',
       'lavfi',
       '-i',
-      _buildDrawTextFilter(filename, size, codec.pixelFormat),
+      _getDrawTextFilter(filename, size, codec.pixelFormat),
     ]);
 
     // Codec args
@@ -91,9 +88,10 @@ class ImageGenerator {
     }
   }
 
+  @override
   Future<void> generate() async {
     for (final Codec codec in Config.codecs) {
-      for (final String size in _sizes) {
+      for (final Size size in _sizes) {
         await _encode(codec: codec, size: size);
       }
     }

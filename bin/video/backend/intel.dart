@@ -1,8 +1,15 @@
-import 'dart:io';
+part of video;
 
-import 'backend.dart';
-
+/// {@template test_media_generator.Intel}
+/// This defines the Intel Quick Sync Video (QSV) backend, which uses
+/// hardware acceleration for video encoding and decoding on Intel GPUs.
+///
+/// https://en.wikipedia.org/wiki/Intel_Quick_Sync_Video
+/// {@endtemplate}
 class Intel extends Backend {
+  /// {@macro test_media_generator.Intel}
+  Intel();
+
   @override
   String get name => 'intel-qsv';
 

@@ -1,10 +1,6 @@
-import 'dart:io';
+part of audio;
 
-import '../core/logger.dart';
-import 'codecs/codec.dart';
-import 'config.dart';
-
-class AudioGenerator {
+class AudioGenerator implements Generator {
   final String _outputDir = Config.outputDir;
   final int _duration = Config.duration;
   final int _sineFrequency = Config.sineFrequency;
@@ -13,34 +9,35 @@ class AudioGenerator {
     Directory(_outputDir).createSync(recursive: true);
   }
 
-  String _buildFileName(
+  String _getFileName(
     Codec codec,
-    int bitDepth,
-    int bitRate,
-    int channels,
-    int sampleRate,
+    BitDepth bitDepth,
+    BitRate bitRate,
+    Channels channels,
+    SampleRate sampleRate,
   ) {
     return '${codec.name}_'
-        '${bitDepth}bit_'
-        '${bitRate}kbps_'
-        '${channels}ch_'
-        '${sampleRate ~/ 1000}kHz.${codec.extension}';
+        '${bitDepth.name}_'
+        '${bitRate.name}_'
+        '${channels.name}_'
+        '${sampleRate.name}'
+        '.${codec.extension}';
   }
 
-  String _buildAudioFilter(int sampleRate) {
+  String _getAudioFilter(SampleRate sampleRate) {
     return 'sine=frequency=$_sineFrequency'
-        ':sample_rate=$sampleRate:'
+        ':sample_rate=${sampleRate.value}:'
         'duration=$_duration';
   }
 
   Future<void> _encode({
     required Codec codec,
-    required int bitDepth,
-    required int bitRate,
-    required int channels,
-    required int sampleRate,
+    required BitDepth bitDepth,
+    required BitRate bitRate,
+    required Channels channels,
+    required SampleRate sampleRate,
   }) async {
-    final String filename = _buildFileName(
+    final String filename = _getFileName(
       codec,
       bitDepth,
       bitRate,
@@ -61,7 +58,7 @@ class AudioGenerator {
     args.addAll(<String>['-y']);
 
     // Input args
-    args.addAll(<String>['-f', 'lavfi', '-i', _buildAudioFilter(sampleRate)]);
+    args.addAll(<String>['-f', 'lavfi', '-i', _getAudioFilter(sampleRate)]);
 
     // Apply channels
     args.addAll(<String>['-ac', channels.toString()]);
@@ -96,12 +93,13 @@ class AudioGenerator {
     }
   }
 
+  @override
   Future<void> generate() async {
     for (final Codec codec in Config.codecs) {
-      for (final int bitDepth in codec.bitDepths) {
-        for (final int bitRate in codec.bitRates) {
-          for (final int channels in codec.channels) {
-            for (final int sampleRate in codec.sampleRates) {
+      for (final BitDepth bitDepth in codec.bitDepths) {
+        for (final BitRate bitRate in codec.bitRates) {
+          for (final Channels channels in codec.channels) {
+            for (final SampleRate sampleRate in codec.sampleRates) {
               await _encode(
                 codec: codec,
                 bitDepth: bitDepth,

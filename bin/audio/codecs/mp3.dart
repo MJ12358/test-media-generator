@@ -1,17 +1,27 @@
-import 'codec.dart';
+part of audio;
 
+/// {@template test_media_generator.MP3}
+/// This defines the MP3 audio codec,
+/// which is a widely used lossy audio format.
+///
+/// https://en.wikipedia.org/wiki/MP3
+/// {@endtemplate}
 class MP3 extends Codec {
   final bool _isVbr;
 
+  /// {@macro test_media_generator.MP3}
   factory MP3() {
     return MP3._(isVbr: false);
   }
 
-  MP3._({required bool isVbr}) : _isVbr = isVbr;
-
+  /// {@macro test_media_generator.MP3}
+  ///
+  /// This constructor creates a variable bitrate (VBR) MP3 codec configuration.
   factory MP3.vbr() {
     return MP3._(isVbr: true);
   }
+
+  MP3._({required bool isVbr}) : _isVbr = isVbr;
 
   @override
   String get name {
@@ -26,13 +36,13 @@ class MP3 extends Codec {
 
   @override
   /// MP3 is lossy, but can encode from different bit depths.
-  List<int> get bitDepths => <int>[16, 24];
+  List<BitDepth> get bitDepths => <BitDepth>[BitDepth.bd16, BitDepth.bd24];
 
   @override
-  List<int> get bitRates {
+  List<BitRate> get bitRates {
     if (_isVbr) {
       // VBR doesn't use fixed bit rates
-      return <int>[];
+      return <BitRate>[];
     } else {
       return super.bitRates;
     }
@@ -40,14 +50,14 @@ class MP3 extends Codec {
 
   @override
   /// MP3 supports mono and stereo only.
-  List<int> get channels => <int>[1, 2];
+  List<Channels> get channels => <Channels>[Channels.ch1, Channels.ch2];
 
   @override
   List<String> get encoderFlags {
     if (_isVbr) {
       return <String>['-q:a', '3'];
     } else {
-      return <String>[];
+      return super.encoderFlags;
     }
   }
 }

@@ -1,6 +1,15 @@
-import 'codec.dart';
+part of audio;
 
+/// {@template test_media_generator.AAC}
+/// This defines the AAC audio codec,
+/// which is a widely used lossy audio format.
+///
+/// https://en.wikipedia.org/wiki/Advanced_Audio_Coding
+/// {@endtemplate}
 class AAC extends Codec {
+  /// {@macro test_media_generator.AAC}
+  AAC();
+
   @override
   String get name => 'aac';
 
@@ -12,5 +21,5 @@ class AAC extends Codec {
 
   @override
   /// AAC is lossy, but can encode from different bit depths.
-  List<int> get bitDepths => <int>[16, 24];
+  List<BitDepth> get bitDepths => <BitDepth>[BitDepth.bd16, BitDepth.bd24];
 }

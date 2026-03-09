@@ -1,8 +1,4 @@
-import '../core/unsupported_exception.dart';
-import 'backend/backend.dart';
-import 'codecs/codec.dart';
-import 'codecs/mjpeg.dart';
-import 'codecs/mpeg2.dart';
+part of video;
 
 class EncoderMapper {
   static String getName(Codec codec, Backend backend) {

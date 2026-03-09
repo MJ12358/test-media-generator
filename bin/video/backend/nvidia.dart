@@ -1,8 +1,15 @@
-import 'dart:io';
+part of video;
 
-import 'backend.dart';
-
+/// {@template test_media_generator.Nvidia}
+/// This defines the NVIDIA NVENC backend, which uses hardware acceleration for
+/// video encoding and decoding on NVIDIA GPUs.
+///
+/// https://en.wikipedia.org/wiki/NVENC
+/// {@endtemplate}
 class Nvidia extends Backend {
+  /// {@macro test_media_generator.Nvidia}
+  Nvidia();
+
   @override
   String get name => 'nvidia';
 

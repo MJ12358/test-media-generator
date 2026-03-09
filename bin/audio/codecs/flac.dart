@@ -1,6 +1,15 @@
-import 'codec.dart';
+part of audio;
 
+/// {@template test_media_generator.FLAC}
+/// This defines the FLAC audio codec,
+/// which is a widely used lossless audio format.
+///
+/// https://en.wikipedia.org/wiki/FLAC
+/// {@endtemplate}
 class FLAC extends Codec {
+  /// {@macro test_media_generator.FLAC}
+  FLAC();
+
   @override
   String get name => 'flac';
 
@@ -12,5 +21,5 @@ class FLAC extends Codec {
 
   @override
   /// FLAC is lossless compression.
-  List<int> get bitRates => <int>[];
+  List<BitRate> get bitRates => <BitRate>[];
 }

@@ -1,8 +1,15 @@
-import 'dart:io';
+part of video;
 
-import 'backend.dart';
-
+/// {@template test_media_generator.Vaapi}
+/// This defines the VAAPI backend, which uses hardware acceleration for video
+/// encoding and decoding on Linux systems with compatible GPUs.
+///
+/// https://en.wikipedia.org/wiki/Video_Acceleration_API
+/// {@endtemplate}
 class Vaapi extends Backend {
+  /// {@macro test_media_generator.Vaapi}
+  Vaapi();
+
   @override
   String get name => 'vaapi';
 

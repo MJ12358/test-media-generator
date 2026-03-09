@@ -1,12 +1,4 @@
-import 'codecs/aac.dart';
-import 'codecs/ac3.dart';
-import 'codecs/alac.dart';
-import 'codecs/codec.dart';
-import 'codecs/flac.dart';
-import 'codecs/mp3.dart';
-import 'codecs/opus.dart';
-import 'codecs/vorbis.dart';
-import 'codecs/wav.dart';
+part of audio;
 
 /// Defines the configuration for the audio generation process.
 class Config {

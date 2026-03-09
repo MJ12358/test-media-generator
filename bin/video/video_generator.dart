@@ -1,40 +1,34 @@
-import 'dart:io';
+part of video;
 
-import '../core/logger.dart';
-import '../core/unsupported_exception.dart';
-import 'backend/backend.dart';
-import 'backend/cpu.dart';
-import 'codecs/codec.dart';
-import 'codecs/mjpeg.dart';
-import 'codecs/mpeg2.dart';
-import 'config.dart';
-import 'encoder_mapper.dart';
-
-class VideoGenerator {
+class VideoGenerator implements Generator {
   static late Backend backend;
 
   final String _outputDir = Config.outputDir;
   final int _duration = Config.duration;
   final int _sineFrequency = Config.sineFrequency;
   final String _fontPath = Config.fontPath;
-  final Map<String, String> _resolutions = Config.resolutions;
-  final List<int> _framerates = Config.framerates;
 
   VideoGenerator() {
     Directory(_outputDir).createSync(recursive: true);
     backend = Backend.detect();
   }
 
-  String _buildFileName(Codec codec, String size, int fps, String pixelFormat) {
+  String _getFileName(
+    Codec codec,
+    Size size,
+    FrameRate frameRate,
+    PixelFormat pixelFormat,
+  ) {
     return '${codec.name}_'
-        '${size}_'
-        '${fps}fps_'
-        '$pixelFormat.${codec.extension}';
+        '${size.name}_'
+        '${frameRate.name}_'
+        '${pixelFormat.name}'
+        '.${codec.extension}';
   }
 
-  String _buildVideoFilter(String size, int fps, String filename) {
+  String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
     return '''
-      testsrc=duration=$_duration:size=$size:rate=$fps, 
+      testsrc=duration=$_duration:size=${size.value}:rate=${frameRate.value}, 
       drawtext=fontfile=$_fontPath: 
       text='$filename': 
       x=(w-text_w)/2: 
@@ -53,11 +47,11 @@ class VideoGenerator {
 
   Future<void> _encode({
     required Codec codec,
-    required String size,
-    required int fps,
-    required String pixelFormat,
+    required Size size,
+    required FrameRate frameRate,
+    required PixelFormat pixelFormat,
   }) async {
-    final String filename = _buildFileName(codec, size, fps, pixelFormat);
+    final String filename = _getFileName(codec, size, frameRate, pixelFormat);
 
     final String outputPath = '$_outputDir/$filename';
 
@@ -83,7 +77,7 @@ class VideoGenerator {
         '-f',
         'lavfi',
         '-i',
-        _buildVideoFilter(size, fps, filename),
+        _getVideoFilter(size, frameRate, filename),
         '-f',
         'lavfi',
         '-i',
@@ -104,7 +98,7 @@ class VideoGenerator {
 
       // CPU-only pixel format
       if (backend is Cpu) {
-        args.addAll(<String>['-pix_fmt', pixelFormat]);
+        args.addAll(<String>['-pix_fmt', pixelFormat.value]);
       }
 
       // Apply codec tuning
@@ -139,15 +133,16 @@ class VideoGenerator {
     }
   }
 
+  @override
   Future<void> generate() async {
     for (final Codec codec in Config.codecs) {
-      for (final String resolution in _resolutions.keys) {
-        for (final int fps in _framerates) {
-          for (final String pixelFormat in codec.pixelFormats) {
+      for (final Size size in codec.sizes) {
+        for (final FrameRate frameRate in codec.framerates) {
+          for (final PixelFormat pixelFormat in codec.pixelFormats) {
             await _encode(
               codec: codec,
-              size: _resolutions[resolution]!,
-              fps: fps,
+              size: size,
+              frameRate: frameRate,
               pixelFormat: pixelFormat,
             );
           }

@@ -1,9 +1,10 @@
 import 'package:args/args.dart';
 
-import 'audio/audio_generator.dart';
+import 'audio/audio.dart';
+import 'core/generator.dart';
 import 'core/logger.dart';
-import 'images/image_generator.dart';
-import 'video/video_generator.dart';
+import 'images/images.dart';
+import 'video/video.dart';
 
 const String version = '0.0.1';
 
@@ -65,19 +66,19 @@ void main(List<String> arguments) async {
 
     // Generate audio
     if (generateAudio) {
-      final AudioGenerator generator = AudioGenerator();
+      final Generator generator = AudioGenerator();
       await generator.generate();
     }
 
     // Generate images
     if (generateImages) {
-      final ImageGenerator generator = ImageGenerator();
+      final Generator generator = ImageGenerator();
       await generator.generate();
     }
 
     // Generate videos
     if (generateVideos) {
-      final VideoGenerator generator = VideoGenerator();
+      final Generator generator = VideoGenerator();
       await generator.generate();
     }
 

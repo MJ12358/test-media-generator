@@ -1,3 +1,5 @@
+part of images;
+
 /// This file defines the abstract base class [Codec]
 /// which serves as a blueprint for specific image codec implementations.
 abstract class Codec {
@@ -8,7 +10,7 @@ abstract class Codec {
   String get extension;
 
   /// The pixel format to be used with this codec.
-  String get pixelFormat;
+  PixelFormat get pixelFormat => PixelFormat.rgb24;
 
   /// The encoder to be used with this codec.
   ///

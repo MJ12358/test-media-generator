@@ -1,20 +1,32 @@
-import 'codec.dart';
+part of audio;
 
+/// {@template test_media_generator.WAV}
+/// This defines the WAV audio codec,
+/// which is a widely used uncompressed audio format.
+///
+/// https://en.wikipedia.org/wiki/WAV
+/// {@endtemplate}
 class WAV extends Codec {
   final bool _is16Bit;
   final bool _is24Bit;
 
-  WAV._({required bool is16Bit, required bool is24Bit})
-    : _is16Bit = is16Bit,
-      _is24Bit = is24Bit;
-
+  /// {@macro test_media_generator.WAV}
+  ///
+  /// This constructor uses 16-bit depth, which is the most common..
   factory WAV.bit16() {
     return WAV._(is16Bit: true, is24Bit: false);
   }
 
+  /// {@macro test_media_generator.WAV}
+  ///
+  /// This constructor uses 24-bit depth, which is less common.
   factory WAV.bit24() {
     return WAV._(is16Bit: false, is24Bit: true);
   }
+
+  WAV._({required bool is16Bit, required bool is24Bit})
+    : _is16Bit = is16Bit,
+      _is24Bit = is24Bit;
 
   @override
   String get name {
@@ -42,17 +54,17 @@ class WAV extends Codec {
   }
 
   @override
-  List<int> get bitDepths {
+  List<BitDepth> get bitDepths {
     if (_is16Bit) {
-      return <int>[16];
+      return <BitDepth>[BitDepth.bd16];
     } else if (_is24Bit) {
-      return <int>[24];
+      return <BitDepth>[BitDepth.bd24];
     } else {
-      return <int>[16]; // Default to 16-bit PCM
+      return <BitDepth>[BitDepth.bd16]; // Default to 16-bit PCM
     }
   }
 
   @override
   /// PCM is uncompressed, bit rate = sample_rate * bit_depth * channels.
-  List<int> get bitRates => <int>[];
+  List<BitRate> get bitRates => <BitRate>[];
 }

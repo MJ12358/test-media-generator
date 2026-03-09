@@ -1,6 +1,15 @@
-import 'codec.dart';
+part of video;
 
+/// {@template test_media_generator.MJPEG}
+/// This defines the MJPEG video codec, which is a simple video format that
+/// encodes each frame as a separate JPEG image.
+///
+/// https://en.wikipedia.org/wiki/Motion_JPEG
+/// {@endtemplate}
 class MJPEG extends Codec {
+  /// {@macro test_media_generator.MJPEG}
+  MJPEG();
+
   @override
   String get name => 'mjpeg';
 
@@ -11,8 +20,24 @@ class MJPEG extends Codec {
   String get audio => 'pcm_s16le';
 
   @override
-  List<String> get tuning => <String>['-q:v', '3'];
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.yuvj420p,
+    PixelFormat.yuvj422p,
+    PixelFormat.yuvj444p,
+  ];
 
   @override
-  List<String> get pixelFormats => <String>['yuvj420p', 'yuvj422p', 'yuvj444p'];
+  /// MJPEG is extremely inefficient, so we use very low resolutions
+  /// to keep file sizes manageable.
+  List<Size> get sizes => <Size>[Size.s140, Size.s360, Size.s720, Size.s1080];
+
+  @override
+  List<String> get tuning => <String>[
+    '-q:v', '9', // Higher value = more compression
+    '-b:v', '2M', // Add bitrate limit
+    '-maxrate', '2M', // Maximum bitrate
+    '-bufsize', '4M', // Buffer size for rate control
+    '-compression_level', '100', // Maximum compression (if supported)
+    '-quality', '2', // 0=fast, 1=best, 2=fastest compression
+  ];
 }

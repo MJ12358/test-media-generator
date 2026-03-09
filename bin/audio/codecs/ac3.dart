@@ -1,6 +1,15 @@
-import 'codec.dart';
+part of audio;
 
+/// {@template test_media_generator.AC3}
+/// This defines the AC3 audio codec,
+/// which is a widely used lossy audio format for surround sound.
+///
+/// https://en.wikipedia.org/wiki/Dolby_Digital#Dolby_AC-3
+/// {@endtemplate}
 class AC3 extends Codec {
+  /// {@macro test_media_generator.AC3}
+  AC3();
+
   @override
   String get name => 'ac3';
 
@@ -11,9 +20,13 @@ class AC3 extends Codec {
   String get encoder => 'ac3';
 
   @override
-  List<int> get bitDepths => <int>[16, 24];
+  List<BitDepth> get bitDepths => <BitDepth>[BitDepth.bd16, BitDepth.bd24];
 
   @override
   /// AC3 supports up to 5.1 (6 channels).
-  List<int> get channels => <int>[1, 2, 6];
+  List<Channels> get channels => <Channels>[
+    Channels.ch1,
+    Channels.ch2,
+    Channels.ch6,
+  ];
 }

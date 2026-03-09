@@ -1,6 +1,4 @@
-import '../../core/logger.dart';
-import '../config.dart';
-import 'cpu.dart';
+part of video;
 
 /// This file defines the abstract class `Backend`
 /// which represents a video processing backend.
