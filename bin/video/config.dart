@@ -3,7 +3,7 @@ part of video;
 /// Defines the configuration for the video generation process.
 class Config {
   /// The output directory for the generated videos.
-  static const String outputDir = '../output/videos';
+  static final String outputDir = p.join('output', 'videos');
 
   /// The duration of the generated video in seconds.
   static const int duration = 5;
@@ -12,7 +12,7 @@ class Config {
   static const int sineFrequency = 440;
 
   /// The path to the font file used for the text overlay.
-  static const String fontPath = '../assets/fonts/DejaVuSans.ttf';
+  static final String fontPath = p.join('assets', 'fonts', 'DejaVuSans.ttf');
 
   /// The backends to test. Each backend defines its own properties.
   /// The `detect` method in the [Backend] class will determine which backend

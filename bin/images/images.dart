@@ -2,6 +2,8 @@ library images;
 
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
+
 import '../core/generator.dart';
 import '../core/logger.dart';
 

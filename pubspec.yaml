@@ -10,6 +10,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   args: 2.7.0
+  path: 1.9.1
 
 dev_dependencies:
   dart_lintz: 1.2.1

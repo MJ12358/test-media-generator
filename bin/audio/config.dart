@@ -3,7 +3,7 @@ part of audio;
 /// Defines the configuration for the audio generation process.
 class Config {
   /// The output directory for the generated audio files.
-  static const String outputDir = '../output/audio';
+  static final String outputDir = p.join('output', 'audio');
 
   /// The duration of the generated audio in seconds.
   static const int duration = 5;

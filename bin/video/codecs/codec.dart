@@ -31,8 +31,7 @@ abstract class Codec {
     PixelFormat.yuv444p,
   ];
 
-  /// The sizes(resolutions) to generate,
-  /// mapped from a friendly name to the actual dimensions.
+  /// The sizes(resolutions) to generate.
   List<Size> get sizes => <Size>[
     Size.s140,
     Size.s360,
