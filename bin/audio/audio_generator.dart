@@ -52,44 +52,46 @@ class AudioGenerator implements Generator {
       return;
     }
 
-    final List<String> args = <String>[];
-
-    // Global args
-    args.addAll(<String>['-y']);
-
-    // Input args
-    args.addAll(<String>['-f', 'lavfi', '-i', _getAudioFilter(sampleRate)]);
-
-    // Apply channels
-    args.addAll(<String>['-ac', channels.toString()]);
-
-    // Add encoder
-    args.addAll(<String>['-c:a', codec.encoder]);
-
-    // Add bit rate
-    args.addAll(<String>['-b:a', '${bitRate}k']);
-
-    // Final args
-    args.add(outputPath);
-
-    log.i('Encoding: $filename');
     try {
+      final List<String> args = <String>[];
+
+      // Global args
+      args.addAll(<String>['-y']);
+
+      // Input args
+      args.addAll(<String>['-f', 'lavfi', '-i', _getAudioFilter(sampleRate)]);
+
+      // Apply channels
+      args.addAll(<String>['-ac', '${channels.value}']);
+
+      // Add encoder
+      args.addAll(<String>['-c:a', codec.encoder]);
+
+      // Add bit rate
+      args.addAll(<String>['-b:a', '${bitRate}k']);
+
+      // Final args
+      args.add(outputPath);
+
+      log.i('Encoding: $filename');
+
       final ProcessResult result = await Process.run('ffmpeg', args);
 
-      final File file = File(outputPath);
-
-      // Check if the encoding was successful and the output file is valid.
-      if (result.exitCode != 0 ||
-          !file.existsSync() ||
-          file.lengthSync() == 0) {
-        log.e('Error encoding $filename: ${result.stderr}');
-        // Clean up any invalid output file.
-        if (file.existsSync()) {
-          file.deleteSync();
-        }
+      if (result.exitCode != 0) {
+        throw EncodingException.fromResult(filename, result);
       }
+    } on EncodingException catch (e) {
+      log.e(e.message);
+    } on UnsupportedException catch (e) {
+      log.w(e.message);
     } catch (e) {
       log.e('Exception encoding $filename: $e');
+    } finally {
+      final File file = File(outputPath);
+      if (file.existsSync() && file.lengthSync() == 0) {
+        log.w('Cleaning up invalid output file: $filename');
+        file.deleteSync();
+      }
     }
   }
 

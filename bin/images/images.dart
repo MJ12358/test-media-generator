@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+import '../core/encoding_exception.dart';
 import '../core/generator.dart';
 import '../core/logger.dart';
+import '../core/unsupported_exception.dart';
 
 part 'codecs/avif.dart';
 part 'codecs/bmp.dart';

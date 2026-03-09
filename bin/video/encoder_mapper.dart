@@ -48,9 +48,7 @@ class EncoderMapper {
         return 'libaom-av1';
 
       default:
-        throw UnsupportedException(
-          'Unsupported codec/backend combination: $key',
-        );
+        throw UnsupportedException.codecBackend(key);
     }
   }
 }
