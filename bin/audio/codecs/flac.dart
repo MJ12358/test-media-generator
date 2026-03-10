@@ -21,5 +21,7 @@ class FLAC extends Codec {
 
   @override
   /// FLAC is lossless compression.
-  List<BitRate> get bitRates => <BitRate>[];
+  ///
+  /// We use this so that the generator can use this codec.
+  List<BitRate> get bitRates => <BitRate>[BitRate.br320];
 }

@@ -5,6 +5,8 @@ part of audio;
 /// which is a widely used lossy audio format.
 ///
 /// https://en.wikipedia.org/wiki/Advanced_Audio_Coding
+///
+/// https://trac.ffmpeg.org/wiki/Encode/AAC
 /// {@endtemplate}
 class AAC extends Codec {
   /// {@macro test_media_generator.AAC}

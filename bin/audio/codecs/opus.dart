@@ -24,6 +24,17 @@ class Opus extends Codec {
   List<BitDepth> get bitDepths => <BitDepth>[BitDepth.bd16, BitDepth.bd24];
 
   @override
+  /// Opus supports a wide range of bit rates.
+  /// However, the maximum effective bit rate for Opus is 256 kbps.
+  List<BitRate> get bitRates => <BitRate>[
+    BitRate.br64,
+    BitRate.br96,
+    BitRate.br128,
+    BitRate.br192,
+    BitRate.br256,
+  ];
+
+  @override
   /// Opus internally supports up to 48kHz.
   List<SampleRate> get sampleRates => <SampleRate>[
     SampleRate.sr8,

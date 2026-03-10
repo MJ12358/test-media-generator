@@ -66,5 +66,7 @@ class WAV extends Codec {
 
   @override
   /// PCM is uncompressed, bit rate = sample_rate * bit_depth * channels.
-  List<BitRate> get bitRates => <BitRate>[];
+  ///
+  /// But we specify a high bit rate to ensure the generator can use this codec.
+  List<BitRate> get bitRates => <BitRate>[BitRate.br320];
 }

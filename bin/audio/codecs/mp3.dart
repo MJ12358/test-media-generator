@@ -5,6 +5,8 @@ part of audio;
 /// which is a widely used lossy audio format.
 ///
 /// https://en.wikipedia.org/wiki/MP3
+///
+/// https://trac.ffmpeg.org/wiki/Encode/MP3
 /// {@endtemplate}
 class MP3 extends Codec {
   final bool _isVbr;
@@ -42,7 +44,8 @@ class MP3 extends Codec {
   List<BitRate> get bitRates {
     if (_isVbr) {
       // VBR doesn't use fixed bit rates
-      return <BitRate>[];
+      // But we specify a target bitrate for VBR encoding.
+      return <BitRate>[BitRate.br256];
     } else {
       return super.bitRates;
     }

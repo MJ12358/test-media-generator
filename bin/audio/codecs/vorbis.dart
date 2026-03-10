@@ -20,12 +20,33 @@ class Vorbis extends Codec {
   String get encoder => 'libvorbis';
 
   @override
-  List<BitDepth> get bitDepths => <BitDepth>[
-    BitDepth.bd16,
-    BitDepth.bd24,
-    BitDepth.bd32,
+  /// This is dependent on bit depth and sample rate,
+  /// but for simplicity we will only support these two channel configurations.
+  List<Channels> get channels => <Channels>[Channels.ch1, Channels.ch2];
+
+  @override
+  /// This is dependent on bit depth and channel configuration,
+  /// but for simplicity we will only support 16-bit audio.
+  List<BitDepth> get bitDepths => <BitDepth>[BitDepth.bd16];
+
+  @override
+  /// This is dependent on bit depth and channel configuration,
+  /// but for simplicity we will only support these bit rates.
+  List<BitRate> get bitRates => <BitRate>[
+    BitRate.br64,
+    BitRate.br96,
+    BitRate.br128,
+    BitRate.br192,
   ];
 
   @override
   List<String> get encoderFlags => <String>['-q:a', '5'];
+
+  @override
+  /// This is dependent on bit depth and channel configuration,
+  /// but for simplicity we will only support these sample rates.
+  List<SampleRate> get sampleRates => <SampleRate>[
+    SampleRate.sr44,
+    SampleRate.sr48,
+  ];
 }
