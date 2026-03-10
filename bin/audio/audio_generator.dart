@@ -68,7 +68,7 @@ class AudioGenerator implements Generator {
       args.addAll(<String>['-c:a', codec.encoder]);
 
       // Add bit rate
-      args.addAll(<String>['-b:a', '${bitRate}k']);
+      args.addAll(<String>['-b:a', '${bitRate.value}k']);
 
       // Final args
       args.add(outputPath);
