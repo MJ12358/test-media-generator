@@ -35,10 +35,7 @@ class Intel extends Backend {
   @override
   bool get isAvailable {
     try {
-      final ProcessResult result = Process.runSync('ffmpeg', <String>[
-        '-encoders',
-      ]);
-      if (!result.stdout.toString().contains('h264_qsv')) {
+      if (!_encoders.contains('h264_qsv')) {
         return false;
       }
       if (Platform.isLinux) {

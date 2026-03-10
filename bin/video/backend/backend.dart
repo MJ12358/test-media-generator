@@ -19,6 +19,11 @@ abstract class Backend {
   /// on the current system.
   bool get isAvailable;
 
+  /// The encoders available on the system,
+  /// used for checking hardware encoder support.
+  String get _encoders =>
+      Process.runSync('ffmpeg', <String>['-encoders']).stdout.toString();
+
   /// A method to check if the backend is available.
   static Backend detect() {
     for (final Backend backend in Config.backends) {

@@ -27,15 +27,14 @@ class Nvidia extends Backend {
   @override
   bool get isAvailable {
     try {
-      final ProcessResult result = Process.runSync('ffmpeg', <String>[
-        '-encoders',
-      ]);
-      final bool hasNvenc = result.stdout.toString().contains('h264_nvenc');
+      if (!_encoders.contains('h264_nvenc')) {
+        return false;
+      }
       if (Platform.isLinux) {
-        return hasNvenc && _isAvailableOnLinux();
+        return _isAvailableOnLinux();
       }
       if (Platform.isWindows) {
-        return hasNvenc && _isAvailableOnWindows();
+        return _isAvailableOnWindows();
       }
       return false;
     } catch (e) {

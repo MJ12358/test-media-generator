@@ -27,17 +27,14 @@ class Vaapi extends Backend {
   @override
   bool get isAvailable {
     try {
-      final ProcessResult ffmpegResult = Process.runSync('ffmpeg', <String>[
-        '-encoders',
-      ]);
-      final bool hasVaapi = ffmpegResult.stdout.toString().contains(
-        'h264_vaapi',
-      );
+      if (!_encoders.contains('h264_vaapi')) {
+        return false;
+      }
       if (Platform.isLinux) {
-        return hasVaapi && _isAvailableOnLinux();
+        return _isAvailableOnLinux();
       }
       if (Platform.isWindows) {
-        return hasVaapi && _isAvailableOnWindows();
+        return _isAvailableOnWindows();
       }
       return false;
     } catch (e) {
@@ -48,8 +45,9 @@ class Vaapi extends Backend {
   bool _isAvailableOnLinux() {
     if (File('/dev/dri/renderD128').existsSync()) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   bool _isAvailableOnWindows() {
