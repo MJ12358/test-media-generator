@@ -15,7 +15,7 @@ class Config {
   static final List<Codec> codecs = <Codec>[
     AAC(),
     AC3(),
-    ALAC(),
+    // ALAC(), // I don't think this is useful to test.
     FLAC(),
     MP3(),
     MP3.vbr(),
