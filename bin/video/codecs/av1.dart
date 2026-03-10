@@ -5,6 +5,8 @@ part of video;
 /// video coding format designed for efficient video compression.
 ///
 /// https://en.wikipedia.org/wiki/AV1
+///
+/// https://trac.ffmpeg.org/wiki/Encode/AV1
 /// {@endtemplate}
 class AV1 extends Codec {
   /// {@macro test_media_generator.AV1}
@@ -17,7 +19,7 @@ class AV1 extends Codec {
   String get extension => 'mkv';
 
   @override
-  String get audio => 'opus';
+  String get audio => 'libopus';
 
   @override
   List<String> get encoderFlags {
