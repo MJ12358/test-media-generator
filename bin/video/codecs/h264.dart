@@ -23,9 +23,9 @@ class H264 extends Codec {
 
   @override
   /// H264 is a highly efficient codec, so we can generate higher resolutions.
-  /// However, NVENC encoder has some limitations on supported resolutions.
+  /// Some hardware encoders have limitations on supported resolutions.
   List<Size> get sizes {
-    if (VideoGenerator.backend is Nvidia) {
+    if (VideoGenerator.backend is Nvidia || VideoGenerator.backend is Vaapi) {
       return <Size>[
         Size.s140,
         Size.s360,
