@@ -14,6 +14,10 @@ apt install ffmpeg
 
   - [FFmpeg](https://ffmpeg.org/download.html#build-windows)
 
+## Install Dart
+
+- [Dart](https://dart.dev/get-dart)
+
 ## Run
 
 ```bash
