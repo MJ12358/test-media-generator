@@ -31,11 +31,11 @@ abstract class Codec {
   ];
 
   /// A list of supported channels for this codec.
-  List<Channels> get channels => <Channels>[
-    Channels.ch1,
-    Channels.ch2,
-    Channels.ch6,
-    Channels.ch8,
+  List<ChannelLayout> get channels => <ChannelLayout>[
+    ChannelLayout.mono,
+    ChannelLayout.stereo,
+    ChannelLayout.surround5_1,
+    ChannelLayout.surround7_1,
   ];
 
   /// A list of supported sample rates for this codec.

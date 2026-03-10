@@ -4,30 +4,30 @@ part of audio;
 /// The number of channels refers to the number of discrete audio signals.
 ///
 /// https://en.wikipedia.org/wiki/Audio_signal
-enum Channels {
+enum ChannelLayout {
   /// Mono (1 channel) has a single audio signal,
   /// typically used for voice recordings.
-  ch1(1),
+  mono(1),
 
   /// Stereo (2 channels) has two audio signals,
   /// typically used for music and general audio.
-  ch2(2),
+  stereo(2),
 
   /// 5.1 Surround (6 channels) has six audio signals,
   /// typically used for home theater systems.
-  ch6(6),
+  surround5_1(6),
 
   /// 7.1 Surround (8 channels) has eight audio signals,
   /// typically used for high-end home theater systems.
-  ch8(8);
+  surround7_1(8);
 
-  const Channels(this.value);
+  const ChannelLayout(this.count);
 
-  /// The friendly name of the channels, such as '2ch'.
-  String get name {
-    return '${value}ch';
+  /// The friendly label of the channels, such as '2ch'.
+  String get label {
+    return '${count}ch';
   }
 
   /// The integer value of the channels.
-  final int value;
+  final int count;
 }

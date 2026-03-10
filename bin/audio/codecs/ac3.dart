@@ -24,9 +24,9 @@ class AC3 extends Codec {
 
   @override
   /// AC3 supports up to 5.1 (6 channels).
-  List<Channels> get channels => <Channels>[
-    Channels.ch1,
-    Channels.ch2,
-    Channels.ch6,
+  List<ChannelLayout> get channels => <ChannelLayout>[
+    ChannelLayout.mono,
+    ChannelLayout.stereo,
+    ChannelLayout.surround5_1,
   ];
 }

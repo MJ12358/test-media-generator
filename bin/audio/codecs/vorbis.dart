@@ -22,7 +22,10 @@ class Vorbis extends Codec {
   @override
   /// This is dependent on bit depth and sample rate,
   /// but for simplicity we will only support these two channel configurations.
-  List<Channels> get channels => <Channels>[Channels.ch1, Channels.ch2];
+  List<ChannelLayout> get channels => <ChannelLayout>[
+    ChannelLayout.mono,
+    ChannelLayout.stereo,
+  ];
 
   @override
   /// This is dependent on bit depth and channel configuration,

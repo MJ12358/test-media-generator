@@ -13,28 +13,42 @@ class AudioGenerator implements Generator {
     Codec codec,
     BitDepth bitDepth,
     BitRate bitRate,
-    Channels channels,
+    ChannelLayout channels,
     SampleRate sampleRate,
   ) {
     return '${codec.name}_'
         '${bitDepth.name}_'
         '${bitRate.name}_'
-        '${channels.name}_'
+        '${channels.label}_'
         '${sampleRate.name}'
         '.${codec.extension}';
   }
 
-  String _getAudioFilter(SampleRate sampleRate) {
-    return 'sine=frequency=$_sineFrequency'
-        ':sample_rate=${sampleRate.value}:'
-        'duration=$_duration';
+  // String _getAudioFilter(SampleRate sampleRate) {
+  //   return 'sine=frequency=$_sineFrequency'
+  //       ':sample_rate=${sampleRate.value}:'
+  //       'duration=$_duration';
+  // }
+
+  String _getAudioFilter(ChannelLayout channels, SampleRate sampleRate) {
+    final int segment = (_duration / channels.count).floor();
+    final List<String> expr = <String>[];
+
+    for (int i = 0; i < channels.count; i++) {
+      final int start = i * segment;
+      final int end = (i + 1) * segment;
+
+      expr.add('sin(2*PI*$_sineFrequency*t)*between(t,$start,$end)');
+    }
+
+    return 'aevalsrc="${expr.join('|')}:s=${sampleRate.value}:d=$_duration"';
   }
 
   Future<void> _encode({
     required Codec codec,
     required BitDepth bitDepth,
     required BitRate bitRate,
-    required Channels channels,
+    required ChannelLayout channels,
     required SampleRate sampleRate,
   }) async {
     final String filename = _getFileName(
@@ -59,10 +73,15 @@ class AudioGenerator implements Generator {
       args.addAll(<String>['-y']);
 
       // Input args
-      args.addAll(<String>['-f', 'lavfi', '-i', _getAudioFilter(sampleRate)]);
+      args.addAll(<String>[
+        '-f',
+        'lavfi',
+        '-i',
+        _getAudioFilter(channels, sampleRate),
+      ]);
 
       // Apply channels
-      args.addAll(<String>['-ac', '${channels.value}']);
+      args.addAll(<String>['-ac', '${channels.count}']);
 
       // Add encoder
       args.addAll(<String>['-c:a', codec.encoder]);
@@ -100,7 +119,7 @@ class AudioGenerator implements Generator {
     for (final Codec codec in Config.codecs) {
       for (final BitDepth bitDepth in codec.bitDepths) {
         for (final BitRate bitRate in codec.bitRates) {
-          for (final Channels channels in codec.channels) {
+          for (final ChannelLayout channels in codec.channels) {
             for (final SampleRate sampleRate in codec.sampleRates) {
               await _encode(
                 codec: codec,

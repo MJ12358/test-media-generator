@@ -53,7 +53,10 @@ class MP3 extends Codec {
 
   @override
   /// MP3 supports mono and stereo only.
-  List<Channels> get channels => <Channels>[Channels.ch1, Channels.ch2];
+  List<ChannelLayout> get channels => <ChannelLayout>[
+    ChannelLayout.mono,
+    ChannelLayout.stereo,
+  ];
 
   @override
   List<String> get encoderFlags {

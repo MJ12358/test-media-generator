@@ -22,5 +22,5 @@ part 'codecs/wav.dart';
 part 'config.dart';
 part 'core/bit_depth.dart';
 part 'core/bit_rate.dart';
-part 'core/channels.dart';
+part 'core/channel_layout.dart';
 part 'core/sample_rate.dart';
