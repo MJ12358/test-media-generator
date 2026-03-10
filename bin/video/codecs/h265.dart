@@ -5,6 +5,8 @@ part of video;
 /// improved compression efficiency, especially for high-resolution video.
 ///
 /// https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding
+///
+/// https://trac.ffmpeg.org/wiki/Encode/H.265
 /// {@endtemplate}
 class H265 extends Codec {
   /// {@macro test_media_generator.H265}
@@ -18,6 +20,14 @@ class H265 extends Codec {
 
   @override
   String get audio => 'aac';
+
+  @override
+  /// H265 supports 10-bit color depth, so we can include 10-bit pixel formats.
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.yuv420p10,
+    PixelFormat.yuv422p10,
+    PixelFormat.yuv444p10,
+  ];
 
   @override
   /// H265 is a highly efficient codec, so we can generate higher resolutions.
