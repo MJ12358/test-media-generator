@@ -3,7 +3,7 @@ part of audio;
 class AudioGenerator implements Generator {
   final String _outputDir = Config.outputDir;
   final int _duration = Config.duration;
-  final int _sineFrequency = Config.sineFrequency;
+  // final int _sineFrequency = Config.sineFrequency;
 
   AudioGenerator() {
     Directory(_outputDir).createSync(recursive: true);
@@ -31,14 +31,15 @@ class AudioGenerator implements Generator {
   // }
 
   String _getAudioFilter(ChannelLayout channels, SampleRate sampleRate) {
-    final int segment = (_duration / channels.count).floor();
+    final double segment = _duration / channels.count;
     final List<String> expr = <String>[];
 
     for (int i = 0; i < channels.count; i++) {
-      final int start = i * segment;
-      final int end = (i + 1) * segment;
+      final double start = i * segment;
+      final double end = (i + 1) * segment;
+      final SpeakerPosition position = channels.positions[i];
 
-      expr.add('sin(2*PI*$_sineFrequency*t)*between(t,$start,$end)');
+      expr.add('${position.sineExpr()}*between(t,$start,$end)');
     }
 
     return 'aevalsrc="${expr.join('|')}:s=${sampleRate.value}:d=$_duration"';

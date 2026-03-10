@@ -1,3 +1,5 @@
+part of audio;
+
 /// This defines the various speaker positions used in audio processing.
 /// Each position is associated with a specific frequency for testing purposes.
 ///
@@ -32,4 +34,7 @@ enum SpeakerPosition {
 
   /// The integer value of the frequency associated with the speaker position.
   final int frequency;
+
+  /// Returns a sine wave expression for the speaker position's frequency.
+  String sineExpr() => 'sin(2*PI*$frequency*t)';
 }
