@@ -5,6 +5,8 @@ part of video;
 /// video coding format developed by Google.
 ///
 /// https://en.wikipedia.org/wiki/VP9
+///
+/// https://trac.ffmpeg.org/wiki/Encode/VP9
 /// {@endtemplate}
 class VP9 extends Codec {
   /// {@macro test_media_generator.VP9}

@@ -5,6 +5,8 @@ part of video;
 /// format known for its high compression efficiency and broad compatibility.
 ///
 /// https://en.wikipedia.org/wiki/Advanced_Video_Coding
+///
+/// https://trac.ffmpeg.org/wiki/Encode/H.264
 /// {@endtemplate}
 class H264 extends Codec {
   /// {@macro test_media_generator.H264}
