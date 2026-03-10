@@ -20,16 +20,24 @@ class MPEG2 extends Codec {
   String get audio => 'mp2';
 
   @override
+  /// MPEG2 is extremely inefficient, so we use restricted resolutions
+  /// to keep file sizes manageable.
+  List<Size> get sizes => <Size>[
+    Size.s140,
+    Size.s360,
+    Size.s720,
+    Size.s1080,
+    Size.s1440,
+    Size.s2160,
+  ];
+
+  @override
+  /// These tunings are to prevent buffer over/under flows and packet too large errors.
   List<String> get tuning => <String>[
-    '-b:v',
-    '8M',
-    '-minrate',
-    '8M',
-    '-maxrate',
-    '8M',
-    '-bufsize',
-    '1835k',
-    '-g',
-    '15',
+    '-b:v', '2M', // Add bitrate limit
+    '-minrate', '2M', // Minimum bitrate
+    '-maxrate', '2M', // Maximum bitrate
+    '-bufsize', '4M', // Buffer size for rate control
+    '-g', '15', // Set GOP size to 15 frames (for better seeking)
   ];
 }

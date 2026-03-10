@@ -20,5 +20,23 @@ class H264 extends Codec {
   String get audio => 'aac';
 
   @override
+  /// H264 is a highly efficient codec, so we can generate higher resolutions.
+  /// However, NVENC encoder has some limitations on supported resolutions.
+  List<Size> get sizes {
+    if (VideoGenerator.backend is Nvidia) {
+      return <Size>[
+        Size.s140,
+        Size.s360,
+        Size.s720,
+        Size.s1080,
+        Size.s1440,
+        Size.s2160,
+      ];
+    } else {
+      return super.sizes;
+    }
+  }
+
+  @override
   List<String> get tuning => <String>['-crf', '23'];
 }
