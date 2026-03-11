@@ -1,8 +1,8 @@
 name: test_media_generator
-description: Test Media Generator.
+description: A simple Dart package to generate media files (images, audio, and video) for testing purposes.
 version: 0.0.1
 publish_to: none # Remove this line if you wish to publish to pub.dev
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/MJ12358/test-media-generator
 
 environment:
   sdk: ^3.11.0
