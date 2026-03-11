@@ -1,10 +1,12 @@
 part of audio;
 
+/// {@template test_media_generator.audio.SampleRate}
 /// This defines the various sample rates used in audio processing.
 /// Sample rate refers to the number of audio samples captured per second,
 /// which directly impacts the frequency range and quality of the audio.
 ///
 /// https://en.wikipedia.org/wiki/Sampling_(signal_processing)
+/// {@endtemplate}
 enum SampleRate {
   /// 8 kHz is typically used for
   /// telephone audio and voice recordings.
@@ -26,6 +28,7 @@ enum SampleRate {
   /// audio and professional recording.
   sr96(96000);
 
+  /// {@macro test_media_generator.audio.SampleRate}
   const SampleRate(this.value);
 
   /// The friendly name of the sample rate, such as '96kHz'.

@@ -1,9 +1,11 @@
 part of images;
 
+/// {@template test_media_generator.image.Size}
 /// A collection of predefined sizes for generating test image files.
 /// Each size is represented by its actual dimensions (e.g., '1920x1080').
 ///
 /// https://en.wikipedia.org/wiki/Image_resolution
+/// {@endtemplate}
 enum Size {
   /// The smallest possible size.
   s1('1x1'),
@@ -32,6 +34,7 @@ enum Size {
   /// A size with an extreme aspect ratio to test edge cases.
   extreme('4096x256');
 
+  /// {@macro test_media_generator.image.Size}
   const Size(this.value);
 
   /// The actual dimensions of the size, represented as a string.

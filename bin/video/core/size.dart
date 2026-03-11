@@ -1,10 +1,12 @@
 part of video;
 
+/// {@template test_media_generator.video.Size}
 /// A collection of predefined sizes for generating test video files.
 /// Each size is represented by a friendly name (e.g., '1080p')
 /// and its corresponding dimensions (e.g., '1920x1080').
 ///
-/// https://en.wikipedia.org/wiki/Image_resolution
+/// https://en.wikipedia.org/wiki/Display_resolution
+/// {@endtemplate}
 enum Size {
   /// 140p resolution, typically used for very low-quality video.
   s140('140p', '256x144'),
@@ -27,6 +29,7 @@ enum Size {
   /// 4320p resolution, commonly used for 8K video.
   s4320('4320p', '7680x4320');
 
+  /// {@macro test_media_generator.video.Size}
   const Size(this.name, this.value);
 
   /// The friendly name of the size, such as '1080p'.

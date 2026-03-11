@@ -1,9 +1,13 @@
 part of images;
 
+/// {@template test_media_generator.ImageGenerator}
+/// This class is responsible for generating test image files.
+/// {@endtemplate}
 class ImageGenerator implements Generator {
   final String _outputDir = Config.outputDir;
   final String _fontPath = Config.fontPath;
 
+  /// {@macro test_media_generator.ImageGenerator}
   ImageGenerator() {
     Directory(_outputDir).createSync(recursive: true);
   }

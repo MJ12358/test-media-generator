@@ -12,7 +12,7 @@ class WAV extends Codec {
 
   /// {@macro test_media_generator.WAV}
   ///
-  /// This constructor uses 16-bit depth, which is the most common..
+  /// This constructor uses 16-bit depth, which is the most common.
   factory WAV.bit16() {
     return WAV._(is16Bit: true, is24Bit: false);
   }

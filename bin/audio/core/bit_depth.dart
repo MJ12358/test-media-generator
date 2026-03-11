@@ -1,10 +1,12 @@
 part of audio;
 
+/// {@template test_media_generator.audio.BitDepth}
 /// This defines the various bit depths used in audio processing.
 /// Bit depth refers to the number of bits used to represent each audio sample,
 /// which directly impacts the dynamic range and noise floor of the audio.
 ///
 /// https://en.wikipedia.org/wiki/Audio_bit_depth
+/// {@endtemplate}
 enum BitDepth {
   /// 8-bit audio has a dynamic range of 48 dB
   /// and is typically used for low-quality audio.
@@ -22,6 +24,7 @@ enum BitDepth {
   /// and is used for high-resolution audio.
   bd32(32);
 
+  /// {@macro test_media_generator.audio.BitDepth}
   const BitDepth(this.value);
 
   /// The friendly name of the bit depth, such as '16bit'.

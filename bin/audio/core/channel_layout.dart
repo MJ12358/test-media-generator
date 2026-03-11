@@ -1,9 +1,11 @@
 part of audio;
 
+/// {@template test_media_generator.audio.ChannelLayout}
 /// This defines the various channel configurations used in audio processing.
 /// The number of channels refers to the number of discrete audio signals.
 ///
 /// https://en.wikipedia.org/wiki/Audio_signal
+/// {@endtemplate}
 enum ChannelLayout {
   /// Mono (1 channel) has a single audio signal,
   /// typically used for voice recordings.
@@ -37,8 +39,10 @@ enum ChannelLayout {
     SpeakerPosition.sr,
   ]);
 
+  /// {@macro test_media_generator.audio.ChannelLayout}
   const ChannelLayout(this.positions);
 
+  /// A list of speaker positions for this channel layout.
   final List<SpeakerPosition> positions;
 
   /// The friendly label of the channels, such as '2ch'.
@@ -47,5 +51,8 @@ enum ChannelLayout {
   }
 
   /// The integer value of the channels.
+  ///
+  /// This is equal to the length of the positions list,
+  /// which defines the number of discrete audio signals.
   int get count => positions.length;
 }

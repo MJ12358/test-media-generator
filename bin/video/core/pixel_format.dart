@@ -1,10 +1,12 @@
 part of video;
 
+/// {@template test_media_generator.video.PixelFormat}
 /// This defines the pixel formats that can be used for encoding video frames.
 /// Pixel formats specify how pixel data is stored and interpreted,
 /// which can affect the quality and compatibility of the generated video files.
 ///
 /// https://en.wikipedia.org/wiki/Pixel_format
+/// {@endtemplate}
 enum PixelFormat {
   /// The YUV420P pixel format, which uses 12 bits per pixel
   /// (8 bits for the Y channel and 4 bits for the U and V channels).
@@ -45,7 +47,9 @@ enum PixelFormat {
   /// (10 bits for each of the Y, U, and V channels).
   yuv444p10('yuv444p10le');
 
+  /// {@macro test_media_generator.video.PixelFormat}
   const PixelFormat(this.value);
 
+  /// The string value of the pixel format, such as 'yuv420p'.
   final String value;
 }

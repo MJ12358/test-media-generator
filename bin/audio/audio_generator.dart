@@ -1,10 +1,14 @@
 part of audio;
 
+/// {@template test_media_generator.AudioGenerator}
+/// This class is responsible for generating test audio files.
+/// {@endtemplate}
 class AudioGenerator implements Generator {
   final String _outputDir = Config.outputDir;
   final int _duration = Config.duration;
   // final int _sineFrequency = Config.sineFrequency;
 
+  /// {@macro test_media_generator.AudioGenerator}
   AudioGenerator() {
     Directory(_outputDir).createSync(recursive: true);
   }

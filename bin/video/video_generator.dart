@@ -1,5 +1,8 @@
 part of video;
 
+/// {@template test_media_generator.VideoGenerator}
+/// This class is responsible for generating test video files.
+/// {@endtemplate}
 class VideoGenerator implements Generator {
   static late Backend backend;
 
@@ -8,6 +11,7 @@ class VideoGenerator implements Generator {
   final int _sineFrequency = Config.sineFrequency;
   final String _fontPath = Config.fontPath;
 
+  /// {@macro test_media_generator.VideoGenerator}
   VideoGenerator() {
     Directory(_outputDir).createSync(recursive: true);
     backend = Backend.detect();

@@ -1,10 +1,12 @@
 part of audio;
 
+/// {@template test_media_generator.audio.BitRate}
 /// This defines the bit rate of an audio file, which is the number of bits
 /// that are processed per second. Higher bit rates generally indicate better
 /// audio quality, but also result in larger file sizes.
 ///
 /// https://en.wikipedia.org/wiki/Bit_rate
+/// {@endtemplate}
 enum BitRate {
   /// 64 kbps is considered low quality and
   /// is typically used for speech.
@@ -33,6 +35,7 @@ enum BitRate {
   /// offer the best audio quality available.
   br320(320);
 
+  /// {@macro test_media_generator.audio.BitRate}
   const BitRate(this.value);
 
   /// The friendly name of the bit rate, such as '128kbps'.

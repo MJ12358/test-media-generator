@@ -1,9 +1,11 @@
 part of audio;
 
+/// {@template test_media_generator.audio.SpeakerPosition}
 /// This defines the various speaker positions used in audio processing.
 /// Each position is associated with a specific frequency for testing purposes.
 ///
 /// https://en.wikipedia.org/wiki/Loudspeaker
+/// {@endtemplate}
 enum SpeakerPosition {
   /// Front Left (FL) is the left speaker in a stereo or surround sound setup.
   fl(440),
@@ -30,6 +32,7 @@ enum SpeakerPosition {
   /// Side Right (SR) is the right side speaker in a surround sound setup.
   sr(1100);
 
+  /// {@macro test_media_generator.audio.SpeakerPosition}
   const SpeakerPosition(this.frequency);
 
   /// The integer value of the frequency associated with the speaker position.
