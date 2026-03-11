@@ -1,9 +1,11 @@
 part of video;
 
-/// This file defines the abstract class `Backend`
+/// {@template test_media_generator.video.Backend}
+/// This defines the abstract class `Backend`
 /// which represents a video processing backend.
 /// It includes properties for the backend's name,
 /// filter, hardware device arguments, and availability status.
+/// {@endtemplate}
 abstract class Backend {
   /// The name of the backend.
   String get name;
@@ -32,7 +34,7 @@ abstract class Backend {
         return backend;
       }
     }
-    log.i('Using GPU backend: cpu');
+    log.i('GPU backend not available, falling back to CPU encoding.');
     return Cpu();
   }
 }
