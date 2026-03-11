@@ -23,20 +23,25 @@ class ImageGenerator extends Generator {
     Size size,
     PixelFormat pixelFormat,
   ) {
-    return '''
-      nullsrc=s=${size.value}, 
-      geq=r=X/W*255:g=Y/H*255:b=128, 
-      format=${pixelFormat.value}, 
-      drawtext=fontfile=$fontPath: 
-      text='$filename': 
-      x=(w-text_w)/2: 
-      y=(h-text_h)/2: 
-      fontsize=h/15: 
-      fontcolor=white: 
-      box=1: 
-      boxcolor=black@0.6: 
-      boxborderw=10
-    ''';
+    final String src = <String>[
+      'nullsrc=s=${size.value}',
+      'geq=r=X/W*255:g=Y/H*255:b=128',
+      'format=${pixelFormat.value}',
+    ].join(',');
+
+    final String text = <String>[
+      'fontfile=$fontPath',
+      "text='$filename'",
+      'x=(w-text_w)/2',
+      'y=(h-text_h)/2',
+      'fontsize=h/15',
+      'fontcolor=white',
+      'box=1',
+      'boxcolor=black@0.6',
+      'boxborderw=10',
+    ].join(':');
+
+    return '$src,drawtext=$text';
   }
 
   Future<void> _encode({required Codec codec, required Size size}) async {
@@ -50,13 +55,13 @@ class ImageGenerator extends Generator {
     }
 
     try {
-      final List<String> args = <String>[];
+      final Command cmd = Command();
 
       // Global args
-      args.addAll(<String>['-y']);
+      cmd.add(<String>['-y']);
 
       // Input args
-      args.addAll(<String>[
+      cmd.add(<String>[
         '-f',
         'lavfi',
         '-i',
@@ -64,23 +69,17 @@ class ImageGenerator extends Generator {
       ]);
 
       // Codec args
-      args.addAll(codec.encoderFlags);
+      cmd.add(codec.encoderFlags);
 
       // Final args
-      args.addAll(<String>['-frames:v', '1']);
-      args.add(outputPath);
+      cmd.add(<String>['-frames:v', '1']);
+      cmd.add(<String>[outputPath]);
 
       log.i('Encoding: $filename');
 
-      final ProcessResult result = await Process.run('ffmpeg', args);
-
-      if (result.exitCode != 0) {
-        throw EncodingException.fromResult(filename, result);
-      }
+      await cmd.run(filename);
     } on EncodingException catch (e) {
       log.e(e.message);
-    } on UnsupportedException catch (e) {
-      log.w(e.message);
     } catch (e) {
       log.e('Exception encoding $filename: $e');
     } finally {

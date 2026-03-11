@@ -32,22 +32,25 @@ class VideoGenerator extends Generator {
   }
 
   String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
-    return '''
-      testsrc=duration=$duration:size=${size.value}:rate=${frameRate.value}, 
-      drawtext=fontfile=$fontPath: 
-      text='$filename': 
-      x=(w-text_w)/2: 
-      y=(h-text_h)/2: 
-      fontsize=h/15: 
-      fontcolor=white: 
-      box=1: 
-      boxcolor=black@0.6: 
-      boxborderw=10
-    ''';
-  }
+    final String src = <String>[
+      'testsrc=duration=$duration',
+      'size=${size.value}',
+      'rate=${frameRate.value}',
+    ].join(':');
 
-  bool _needsStrictExperimental(String encoder) {
-    return encoder == 'libaom-av1';
+    final String text = <String>[
+      'fontfile=$fontPath',
+      "text='$filename'",
+      'x=(w-text_w)/2',
+      'y=(h-text_h)/2',
+      'fontsize=h/15',
+      'fontcolor=white',
+      'box=1',
+      'boxcolor=black@0.6',
+      'boxborderw=10',
+    ].join(':');
+
+    return '$src,drawtext=$text';
   }
 
   Future<void> _encode({
@@ -66,19 +69,17 @@ class VideoGenerator extends Generator {
     }
 
     try {
-      final String encoder = EncoderMapper.getName(codec, backend);
-      final String? filter = codec is MJPEG || codec is MPEG2
-          ? null
-          : backend.filter;
+      final String encoder = EncoderMapper.select(codec, backend);
+      final String? filter = EncoderMapper.getFilter(encoder, backend);
 
-      final List<String> args = <String>[];
+      final Command cmd = Command();
 
       // Global args
-      args.addAll(backend.hwDeviceArgs);
-      args.addAll(<String>['-y']);
+      cmd.add(backend.hwDeviceArgs);
+      cmd.add(<String>['-y']);
 
       // Input args
-      args.addAll(<String>[
+      cmd.add(<String>[
         '-f',
         'lavfi',
         '-i',
@@ -91,42 +92,36 @@ class VideoGenerator extends Generator {
 
       // Codec and filter args
       if (filter != null) {
-        args.addAll(<String>['-vf', filter]);
+        cmd.add(<String>['-vf', filter]);
       }
 
-      if (_needsStrictExperimental(encoder)) {
-        args.addAll(<String>['-strict', '-2']);
+      if (EncoderMapper.needsStrict(encoder)) {
+        cmd.add(<String>['-strict', '-2']);
       }
 
-      args.addAll(<String>['-c:v', encoder]);
-      args.addAll(<String>['-c:a', codec.audio]);
+      cmd.add(<String>['-c:v', encoder]);
+      cmd.add(<String>['-c:a', codec.audio]);
 
       // CPU-only pixel format
-      if (backend is Cpu) {
-        args.addAll(<String>['-pix_fmt', pixelFormat.value]);
+      if (EncoderMapper.isCpuEncoder(encoder)) {
+        cmd.add(<String>['-pix_fmt', pixelFormat.value]);
       }
 
       // Apply codec tuning
-      args.addAll(codec.tuning);
+      cmd.add(codec.tuning);
 
       // Add encoder-specific flags
-      args.addAll(codec.encoderFlags);
+      cmd.add(codec.encoderFlags(backend));
 
       // Final args
-      args.add('-shortest');
-      args.add(outputPath);
+      cmd.add(<String>['-shortest']);
+      cmd.add(<String>[outputPath]);
 
       log.i('Encoding: $filename');
 
-      final ProcessResult result = await Process.run('ffmpeg', args);
-
-      if (result.exitCode != 0) {
-        throw EncodingException.fromResult(filename, result);
-      }
+      await cmd.run(filename);
     } on EncodingException catch (e) {
       log.e(e.message);
-    } on UnsupportedException catch (e) {
-      log.w(e.message);
     } catch (e) {
       log.e('Exception encoding $filename: $e');
     } finally {

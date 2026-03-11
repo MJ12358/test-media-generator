@@ -68,13 +68,13 @@ class AudioGenerator extends Generator {
     }
 
     try {
-      final List<String> args = <String>[];
+      final Command cmd = Command();
 
       // Global args
-      args.addAll(<String>['-y']);
+      cmd.add(<String>['-y']);
 
       // Input args
-      args.addAll(<String>[
+      cmd.add(<String>[
         '-f',
         'lavfi',
         '-i',
@@ -82,28 +82,22 @@ class AudioGenerator extends Generator {
       ]);
 
       // Apply channels
-      args.addAll(<String>['-ac', '${channels.count}']);
+      cmd.add(<String>['-ac', '${channels.count}']);
 
       // Add encoder
-      args.addAll(<String>['-c:a', codec.encoder]);
+      cmd.add(<String>['-c:a', codec.encoder]);
 
       // Add bit rate
-      args.addAll(<String>['-b:a', '${bitRate.value}k']);
+      cmd.add(<String>['-b:a', '${bitRate.value}k']);
 
       // Final args
-      args.add(outputPath);
+      cmd.add(<String>[outputPath]);
 
       log.i('Encoding: $filename');
 
-      final ProcessResult result = await Process.run('ffmpeg', args);
-
-      if (result.exitCode != 0) {
-        throw EncodingException.fromResult(filename, result);
-      }
+      await cmd.run(filename);
     } on EncodingException catch (e) {
       log.e(e.message);
-    } on UnsupportedException catch (e) {
-      log.w(e.message);
     } catch (e) {
       log.e('Exception encoding $filename: $e');
     } finally {
