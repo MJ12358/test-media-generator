@@ -15,10 +15,18 @@ abstract class Codec {
   String get audio;
 
   /// A list of additional encoder flags specific to this codec.
-  List<String> get encoderFlags => <String>[];
+  List<String> encoderFlags(Backend backend) => <String>[];
 
   /// A list of framerates to generate.
   List<FrameRate> get framerates => FrameRate.values;
+
+  /// A mapping of available hardware encoders
+  /// for this codec based on the backend.
+  Map<Type, String> get hardwareEncoders => <Type, String>{};
+
+  /// The software encoder to use as a fallback when
+  /// hardware encoders are not available.
+  String get softwareEncoder;
 
   /// A list of pixel formats supported by this codec.
   ///

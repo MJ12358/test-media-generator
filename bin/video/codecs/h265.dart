@@ -22,6 +22,16 @@ class H265 extends Codec {
   String get audio => 'aac';
 
   @override
+  Map<Type, String> get hardwareEncoders => <Type, String>{
+    Intel: 'hevc_qsv',
+    Nvidia: 'hevc_nvenc',
+    Vaapi: 'hevc_vaapi',
+  };
+
+  @override
+  String get softwareEncoder => 'libx265';
+
+  @override
   /// H265 supports 10-bit color depth, so we can include 10-bit pixel formats.
   List<PixelFormat> get pixelFormats => <PixelFormat>[
     PixelFormat.yuv420p10,

@@ -22,8 +22,18 @@ class AV1 extends Codec {
   String get audio => 'libopus';
 
   @override
-  List<String> get encoderFlags {
-    if (VideoGenerator.backend is Cpu) {
+  Map<Type, String> get hardwareEncoders => <Type, String>{
+    Intel: 'av1_qsv',
+    Nvidia: 'av1_nvenc',
+    Vaapi: 'av1_vaapi',
+  };
+
+  @override
+  String get softwareEncoder => 'libaom-av1';
+
+  @override
+  List<String> encoderFlags(Backend backend) {
+    if (backend is Cpu) {
       return <String>['-cpu-used', '4', '-row-mt', '1', '-threads', '4'];
     } else {
       return <String>[];

@@ -22,6 +22,16 @@ class H264 extends Codec {
   String get audio => 'aac';
 
   @override
+  Map<Type, String> get hardwareEncoders => <Type, String>{
+    Intel: 'h264_qsv',
+    Nvidia: 'h264_nvenc',
+    Vaapi: 'h264_vaapi',
+  };
+
+  @override
+  String get softwareEncoder => 'libx264';
+
+  @override
   /// H264 is a highly efficient codec, so we can generate higher resolutions.
   /// Some hardware encoders have limitations on supported resolutions.
   List<Size> get sizes {

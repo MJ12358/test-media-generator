@@ -20,6 +20,11 @@ class MPEG2 extends Codec {
   String get audio => 'mp2';
 
   @override
+  /// MPEG2 is an older codec with limited hardware support,
+  /// so we use the same encoder for all backends.
+  String get softwareEncoder => 'mpeg2video';
+
+  @override
   /// MPEG2 is extremely inefficient, so we use restricted resolutions
   /// to keep file sizes manageable.
   List<Size> get sizes => <Size>[

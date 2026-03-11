@@ -20,6 +20,11 @@ class MJPEG extends Codec {
   String get audio => 'pcm_s16le';
 
   @override
+  /// MJPEG is a very simple codec that does not have hardware acceleration,
+  /// so we use the same encoder for all backends.
+  String get softwareEncoder => 'mjpeg';
+
+  @override
   List<PixelFormat> get pixelFormats => <PixelFormat>[
     PixelFormat.yuvj420p,
     PixelFormat.yuvj422p,
