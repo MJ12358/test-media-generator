@@ -3,15 +3,11 @@ part of audio;
 /// {@template test_media_generator.AudioGenerator}
 /// This class is responsible for generating test audio files.
 /// {@endtemplate}
-class AudioGenerator implements Generator {
-  final String _outputDir = Config.outputDir;
-  final int _duration = Config.duration;
-  // final int _sineFrequency = Config.sineFrequency;
+class AudioGenerator extends Generator {
+  static const int _duration = Config.duration;
 
   /// {@macro test_media_generator.AudioGenerator}
-  AudioGenerator() {
-    Directory(_outputDir).createSync(recursive: true);
-  }
+  AudioGenerator() : super(outputDir: Config.outputDir);
 
   String _getFileName(
     Codec codec,
@@ -64,7 +60,7 @@ class AudioGenerator implements Generator {
       sampleRate,
     );
 
-    final String outputPath = '$_outputDir/$filename';
+    final String outputPath = '$outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
       log.w('Skipping (exists): $filename');
@@ -139,6 +135,6 @@ class AudioGenerator implements Generator {
       }
     }
 
-    log.s('Audio test set generated in $_outputDir');
+    log.s('Audio test set generated in $outputDir');
   }
 }

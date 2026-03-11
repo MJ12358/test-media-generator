@@ -3,13 +3,12 @@ part of images;
 /// {@template test_media_generator.ImageGenerator}
 /// This class is responsible for generating test image files.
 /// {@endtemplate}
-class ImageGenerator implements Generator {
-  final String _outputDir = Config.outputDir;
-  final String _fontPath = Config.fontPath;
+class ImageGenerator extends Generator {
+  late final String fontPath;
 
   /// {@macro test_media_generator.ImageGenerator}
-  ImageGenerator() {
-    Directory(_outputDir).createSync(recursive: true);
+  ImageGenerator() : super(outputDir: Config.outputDir) {
+    fontPath = Config.fontPath;
   }
 
   String _getFileName(Codec codec, Size size, PixelFormat pixelFormat) {
@@ -28,7 +27,7 @@ class ImageGenerator implements Generator {
       nullsrc=s=${size.value}, 
       geq=r=X/W*255:g=Y/H*255:b=128, 
       format=${pixelFormat.value}, 
-      drawtext=fontfile=$_fontPath: 
+      drawtext=fontfile=$fontPath: 
       text='$filename': 
       x=(w-text_w)/2: 
       y=(h-text_h)/2: 
@@ -43,7 +42,7 @@ class ImageGenerator implements Generator {
   Future<void> _encode({required Codec codec, required Size size}) async {
     final String filename = _getFileName(codec, size, codec.pixelFormat);
 
-    final String outputPath = '$_outputDir/$filename';
+    final String outputPath = '$outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
       log.w('Skipping (exists): $filename');
@@ -101,6 +100,6 @@ class ImageGenerator implements Generator {
       }
     }
 
-    log.s('Image test set generated in $_outputDir');
+    log.s('Image test set generated in $outputDir');
   }
 }

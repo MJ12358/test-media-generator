@@ -3,18 +3,19 @@ part of video;
 /// {@template test_media_generator.VideoGenerator}
 /// This class is responsible for generating test video files.
 /// {@endtemplate}
-class VideoGenerator implements Generator {
+class VideoGenerator extends Generator {
+  /// {@macro test_media_generator.video.Backend}
   static late Backend backend;
-
-  final String _outputDir = Config.outputDir;
-  final int _duration = Config.duration;
-  final int _sineFrequency = Config.sineFrequency;
-  final String _fontPath = Config.fontPath;
+  late final int duration;
+  late final int sineFrequency;
+  late final String fontPath;
 
   /// {@macro test_media_generator.VideoGenerator}
-  VideoGenerator() {
-    Directory(_outputDir).createSync(recursive: true);
+  VideoGenerator() : super(outputDir: Config.outputDir) {
     backend = Backend.detect();
+    duration = Config.duration;
+    sineFrequency = Config.sineFrequency;
+    fontPath = Config.fontPath;
   }
 
   String _getFileName(
@@ -32,8 +33,8 @@ class VideoGenerator implements Generator {
 
   String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
     return '''
-      testsrc=duration=$_duration:size=${size.value}:rate=${frameRate.value}, 
-      drawtext=fontfile=$_fontPath: 
+      testsrc=duration=$duration:size=${size.value}:rate=${frameRate.value}, 
+      drawtext=fontfile=$fontPath: 
       text='$filename': 
       x=(w-text_w)/2: 
       y=(h-text_h)/2: 
@@ -57,7 +58,7 @@ class VideoGenerator implements Generator {
   }) async {
     final String filename = _getFileName(codec, size, frameRate, pixelFormat);
 
-    final String outputPath = '$_outputDir/$filename';
+    final String outputPath = '$outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
       log.w('Skipping (exists): $filename');
@@ -85,7 +86,7 @@ class VideoGenerator implements Generator {
         '-f',
         'lavfi',
         '-i',
-        'sine=frequency=$_sineFrequency',
+        'sine=frequency=$sineFrequency',
       ]);
 
       // Codec and filter args
@@ -154,6 +155,6 @@ class VideoGenerator implements Generator {
       }
     }
 
-    log.s('Video test set generated in $_outputDir');
+    log.s('Video test set generated in $outputDir');
   }
 }
