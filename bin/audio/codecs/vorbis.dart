@@ -20,14 +20,6 @@ class Vorbis extends Codec {
   String get encoder => 'libvorbis';
 
   @override
-  /// This is dependent on bit depth and sample rate,
-  /// but for simplicity we will only support these two channel configurations.
-  List<ChannelLayout> get channels => <ChannelLayout>[
-    ChannelLayout.mono,
-    ChannelLayout.stereo,
-  ];
-
-  @override
   /// This is dependent on bit depth and channel configuration,
   /// but for simplicity we will only support 16-bit audio.
   List<BitDepth> get bitDepths => <BitDepth>[BitDepth.bd16];
@@ -40,6 +32,14 @@ class Vorbis extends Codec {
     BitRate.br96,
     BitRate.br128,
     BitRate.br192,
+  ];
+
+  @override
+  /// This is dependent on bit depth and sample rate,
+  /// but for simplicity we will only support these two channel configurations.
+  List<ChannelLayout> get channels => <ChannelLayout>[
+    ChannelLayout.mono,
+    ChannelLayout.stereo,
   ];
 
   @override

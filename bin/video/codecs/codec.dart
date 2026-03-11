@@ -18,13 +18,12 @@ abstract class Codec {
   List<String> get encoderFlags => <String>[];
 
   /// A list of framerates to generate.
-  List<FrameRate> get framerates => <FrameRate>[
-    FrameRate.fr24,
-    FrameRate.fr30,
-    FrameRate.fr60,
-  ];
+  List<FrameRate> get framerates => FrameRate.values;
 
   /// A list of pixel formats supported by this codec.
+  ///
+  /// We default to the most common YUV formats,
+  /// since they are widely supported by video codecs.
   List<PixelFormat> get pixelFormats => <PixelFormat>[
     PixelFormat.yuv420p,
     PixelFormat.yuv422p,
@@ -32,15 +31,7 @@ abstract class Codec {
   ];
 
   /// The sizes(resolutions) to generate.
-  List<Size> get sizes => <Size>[
-    Size.s140,
-    Size.s360,
-    Size.s720,
-    Size.s1080,
-    Size.s1440,
-    Size.s2160,
-    Size.s4320,
-  ];
+  List<Size> get sizes => Size.values;
 
   /// A list of tuning parameters for the codec.
   /// This can be used to specify codec-specific settings.

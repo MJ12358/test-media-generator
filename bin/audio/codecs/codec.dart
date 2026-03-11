@@ -13,39 +13,16 @@ abstract class Codec {
   String get encoder;
 
   /// A list of supported bit depths for this codec.
-  List<BitDepth> get bitDepths => <BitDepth>[
-    BitDepth.bd8,
-    BitDepth.bd16,
-    BitDepth.bd24,
-    BitDepth.bd32,
-  ];
+  List<BitDepth> get bitDepths => BitDepth.values;
 
   /// A list of supported bit rates for this codec.
-  List<BitRate> get bitRates => <BitRate>[
-    BitRate.br64,
-    BitRate.br96,
-    BitRate.br128,
-    BitRate.br192,
-    BitRate.br256,
-    BitRate.br320,
-  ];
+  List<BitRate> get bitRates => BitRate.values;
 
   /// A list of supported channels for this codec.
-  List<ChannelLayout> get channels => <ChannelLayout>[
-    ChannelLayout.mono,
-    ChannelLayout.stereo,
-    ChannelLayout.surround5_1,
-    ChannelLayout.surround7_1,
-  ];
+  List<ChannelLayout> get channels => ChannelLayout.values;
 
   /// A list of supported sample rates for this codec.
-  List<SampleRate> get sampleRates => <SampleRate>[
-    SampleRate.sr8,
-    SampleRate.sr16,
-    SampleRate.sr44,
-    SampleRate.sr48,
-    SampleRate.sr96,
-  ];
+  List<SampleRate> get sampleRates => SampleRate.values;
 
   /// A list of additional encoder flags specific to this codec.
   List<String> get encoderFlags => <String>[];
