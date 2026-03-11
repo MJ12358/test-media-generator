@@ -111,7 +111,7 @@ class VideoGenerator extends Generator {
       cmd.add(codec.tuning);
 
       // Add encoder-specific flags
-      cmd.add(codec.encoderFlags(backend));
+      cmd.add(backend.encoderFlags(encoder));
 
       // Final args
       cmd.add(<String>['-shortest']);

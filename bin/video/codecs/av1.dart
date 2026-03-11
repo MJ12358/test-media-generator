@@ -32,14 +32,5 @@ class AV1 extends Codec {
   String get softwareEncoder => 'libaom-av1';
 
   @override
-  List<String> encoderFlags(Backend backend) {
-    if (backend is Cpu) {
-      return <String>['-cpu-used', '4', '-row-mt', '1', '-threads', '4'];
-    } else {
-      return <String>[];
-    }
-  }
-
-  @override
   List<String> get tuning => <String>['-b:v', '0', '-crf', '35'];
 }

@@ -21,6 +21,9 @@ abstract class Backend {
   /// on the current system.
   bool get isAvailable;
 
+  /// Default encoder flags applied by this backend.
+  List<String> encoderFlags(String encoder) => const <String>[];
+
   /// The encoders available on the system,
   /// used for checking hardware encoder support.
   String get _encoders =>

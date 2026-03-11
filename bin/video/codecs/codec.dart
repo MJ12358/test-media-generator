@@ -14,9 +14,6 @@ abstract class Codec {
   /// that pairs well with the video codec.
   String get audio;
 
-  /// A list of additional encoder flags specific to this codec.
-  List<String> encoderFlags(Backend backend) => <String>[];
-
   /// A list of framerates to generate.
   List<FrameRate> get framerates => FrameRate.values;
 
