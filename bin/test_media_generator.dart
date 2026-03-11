@@ -6,6 +6,7 @@ import 'core/logger.dart';
 import 'images/images.dart';
 import 'video/video.dart';
 
+// TODO: Get this version from pubspec.yaml
 const String version = '0.0.1';
 
 ArgParser _buildParser() {
