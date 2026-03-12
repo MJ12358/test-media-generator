@@ -21,20 +21,27 @@ class Cpu extends Backend {
       case 'libaom-av1':
         return <String>[
           '-cpu-used',
-          '$_cores',
+          '4', // speed/quality tradeoff level
           '-row-mt',
           '1',
           '-threads',
-          '$_cores',
+          '$_threads',
         ];
       case 'libvpx-vp9':
-        return <String>['-row-mt', '1', '-threads', '$_cores'];
+        return <String>['-row-mt', '1', '-threads', '$_threads'];
       case 'libx264':
-        return <String>['-preset', 'veryfast', '-threads', '$_cores'];
+        return <String>['-preset', 'veryfast', '-threads', '$_threads'];
       default:
         return const <String>[];
     }
   }
 
+  /// The number of CPU cores available,
+  /// used to determine the number of threads for encoding.
   int get _cores => Platform.numberOfProcessors;
+
+  /// The number of threads to use for encoding,
+  /// which is typically one less than the total number
+  /// of CPU cores to avoid overloading the system.
+  int get _threads => _cores > 1 ? _cores - 1 : 1;
 }
