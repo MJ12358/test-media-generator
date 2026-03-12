@@ -13,7 +13,7 @@ class EncoderMapper {
       return encoder;
     }
 
-    log.w(
+    logz.w(
       'No ${codec.name} encoder for ${backend.name}, '
       'falling back to CPU.',
     );

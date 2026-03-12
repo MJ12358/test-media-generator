@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:dart_logz/dart_logz.dart';
+
 import 'encoding_exception.dart';
-import 'logger.dart';
 
 /// A class to build and run ffmpeg commands.
 class Command {
@@ -20,7 +21,7 @@ class Command {
   ///
   /// Throws an [EncodingException] if the command fails.
   Future<void> run(String filename) async {
-    log.d(toString());
+    logz.d(toString());
 
     final ProcessResult result = await Process.run(_exe, _args);
 

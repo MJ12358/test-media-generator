@@ -10,6 +10,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   args: 2.7.0
+  dart_logz: 0.0.2
   path: 1.9.1
 
 dev_dependencies:

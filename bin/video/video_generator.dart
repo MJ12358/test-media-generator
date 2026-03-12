@@ -64,7 +64,7 @@ class VideoGenerator extends Generator {
     final String outputPath = '$outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
-      log.w('Skipping (exists): $filename');
+      logz.w('Skipping (exists): $filename');
       return;
     }
 
@@ -117,17 +117,17 @@ class VideoGenerator extends Generator {
       cmd.add(<String>['-shortest']);
       cmd.add(<String>[outputPath]);
 
-      log.i('Encoding: $filename');
+      logz.i('Encoding: $filename');
 
       await cmd.run(filename);
     } on EncodingException catch (e) {
-      log.e(e.message);
+      logz.e(e.message);
     } catch (e) {
-      log.e('Exception encoding $filename: $e');
+      logz.e('Exception encoding $filename: $e');
     } finally {
       final File file = File(outputPath);
       if (file.existsSync() && file.lengthSync() == 0) {
-        log.w('Cleaning up invalid output file: $filename');
+        logz.w('Cleaning up invalid output file: $filename');
         file.deleteSync();
       }
     }
@@ -150,6 +150,6 @@ class VideoGenerator extends Generator {
       }
     }
 
-    log.s('Video test set generated in $outputDir');
+    logz.s('Video test set generated in $outputDir');
   }
 }

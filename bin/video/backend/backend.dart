@@ -33,11 +33,11 @@ abstract class Backend {
   static Backend detect() {
     for (final Backend backend in Config.backends) {
       if (backend.isAvailable) {
-        log.i('Using GPU backend: ${backend.name}');
+        logz.i('Using GPU backend: ${backend.name}');
         return backend;
       }
     }
-    log.i('GPU backend not available, falling back to CPU encoding.');
+    logz.i('GPU backend not available, falling back to CPU encoding.');
     return Cpu();
   }
 }

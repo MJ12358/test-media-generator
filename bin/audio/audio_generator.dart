@@ -63,7 +63,7 @@ class AudioGenerator extends Generator {
     final String outputPath = '$outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
-      log.w('Skipping (exists): $filename');
+      logz.w('Skipping (exists): $filename');
       return;
     }
 
@@ -93,17 +93,17 @@ class AudioGenerator extends Generator {
       // Final args
       cmd.add(<String>[outputPath]);
 
-      log.i('Encoding: $filename');
+      logz.i('Encoding: $filename');
 
       await cmd.run(filename);
     } on EncodingException catch (e) {
-      log.e(e.message);
+      logz.e(e.message);
     } catch (e) {
-      log.e('Exception encoding $filename: $e');
+      logz.e('Exception encoding $filename: $e');
     } finally {
       final File file = File(outputPath);
       if (file.existsSync() && file.lengthSync() == 0) {
-        log.w('Cleaning up invalid output file: $filename');
+        logz.w('Cleaning up invalid output file: $filename');
         file.deleteSync();
       }
     }
@@ -129,6 +129,6 @@ class AudioGenerator extends Generator {
       }
     }
 
-    log.s('Audio test set generated in $outputDir');
+    logz.s('Audio test set generated in $outputDir');
   }
 }

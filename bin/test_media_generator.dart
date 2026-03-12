@@ -1,12 +1,13 @@
 import 'package:args/args.dart';
+import 'package:dart_logz/dart_logz.dart';
 
 import 'audio/audio.dart';
 import 'core/generator.dart';
-import 'core/logger.dart';
 import 'images/images.dart';
 import 'video/video.dart';
 
-// TODO: Get this version from pubspec.yaml
+// TODO: Get this from pubspec.yaml
+const String appName = 'test_media_generator';
 const String version = '0.0.1';
 
 ArgParser _buildParser() {
@@ -33,8 +34,8 @@ ArgParser _buildParser() {
 }
 
 void _printUsage(ArgParser argParser) {
-  log.i('Usage: dart test_media_generator.dart <flags> [arguments]');
-  log.i(argParser.usage);
+  logz.i('Usage: dart $appName.dart <flags> [arguments]');
+  logz.i(argParser.usage);
 }
 
 void main(List<String> arguments) async {
@@ -54,7 +55,7 @@ void main(List<String> arguments) async {
 
     // Print version information if the --version flag is provided.
     if (results.flag('version')) {
-      log.i('test_media_generator version: $version');
+      logz.i('$appName version: $version');
       return;
     }
 
@@ -85,12 +86,12 @@ void main(List<String> arguments) async {
 
     // If no generation type was specified, print an error message.
     if (!generateAudio && !generateImages && !generateVideos) {
-      log.e('No generation type specified. Use --help for usage information.');
+      logz.e('No generation type specified. Use --help for usage information.');
     }
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.
-    log.e(e.message);
-    log.i('');
+    logz.e(e.message);
+    logz.i('');
     _printUsage(argParser);
   }
 }

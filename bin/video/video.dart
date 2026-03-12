@@ -2,12 +2,12 @@ library video;
 
 import 'dart:io';
 
+import 'package:dart_logz/dart_logz.dart';
 import 'package:path/path.dart' as p;
 
 import '../core/command.dart';
 import '../core/encoding_exception.dart';
 import '../core/generator.dart';
-import '../core/logger.dart';
 
 part 'backend/backend.dart';
 part 'backend/cpu.dart';
