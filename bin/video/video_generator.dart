@@ -136,7 +136,7 @@ class VideoGenerator extends Generator {
   @override
   Future<void> generate() async {
     for (final Codec codec in Config.codecs) {
-      for (final Size size in codec.sizes) {
+      for (final Size size in codec.sizes(backend)) {
         for (final FrameRate frameRate in codec.framerates) {
           for (final PixelFormat pixelFormat in codec.pixelFormats) {
             await _encode(

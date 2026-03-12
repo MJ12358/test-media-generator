@@ -27,7 +27,7 @@ class MPEG2 extends Codec {
   @override
   /// MPEG2 is extremely inefficient, so we use restricted resolutions
   /// to keep file sizes manageable.
-  List<Size> get sizes => <Size>[
+  List<Size> sizes(_) => <Size>[
     Size.s140,
     Size.s360,
     Size.s720,

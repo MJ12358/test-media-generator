@@ -36,7 +36,7 @@ abstract class Codec {
   ];
 
   /// The sizes(resolutions) to generate.
-  List<Size> get sizes => Size.values;
+  List<Size> sizes(Backend backend) => Size.values;
 
   /// A list of tuning parameters for the codec.
   /// This can be used to specify codec-specific settings.
