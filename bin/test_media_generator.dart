@@ -1,97 +1,53 @@
-import 'package:args/args.dart';
 import 'package:dart_logz/dart_logz.dart';
 
 import 'audio/audio.dart';
-import 'core/generator.dart';
+import 'core/cli.dart';
+import 'core/pubspec.dart';
 import 'images/images.dart';
 import 'video/video.dart';
 
-// TODO: Get this from pubspec.yaml
-const String appName = 'test_media_generator';
-const String version = '0.0.1';
-
-ArgParser _buildParser() {
-  return ArgParser()
-    ..addFlag(
-      'help',
-      abbr: 'h',
-      negatable: false,
-      help: 'Print this usage information.',
-    )
-    ..addFlag(
-      'version',
-      abbr: 'v',
-      negatable: false,
-      help: 'Print the tool version.',
-    )
-    ..addCommand(
-      'generate',
-      ArgParser()
-        ..addFlag('audio', abbr: 'a', help: 'Generate audio files')
-        ..addFlag('images', abbr: 'i', help: 'Generate image files')
-        ..addFlag('videos', abbr: 'v', help: 'Generate video files'),
-    );
-}
-
-void _printUsage(ArgParser argParser) {
-  logz.i('Usage: dart $appName.dart <flags> [arguments]');
-  logz.i(argParser.usage);
-}
-
 void main(List<String> arguments) async {
-  final ArgParser argParser = _buildParser();
-  bool generateAudio = false;
-  bool generateImages = false;
-  bool generateVideos = false;
+  final CliOptions options = Cli.parse(arguments);
+  final Pubspec pub = Pubspec();
 
   try {
-    final ArgResults results = argParser.parse(arguments);
-
     // Process the parsed arguments.
-    if (results.flag('help')) {
-      _printUsage(argParser);
+    if (options.showHelp) {
+      Cli.printUsage(pub.name);
       return;
     }
 
     // Print version information if the --version flag is provided.
-    if (results.flag('version')) {
-      logz.i('$appName version: $version');
+    if (options.showVersion) {
+      logz.i('${pub.name} version: ${pub.version}');
       return;
     }
 
-    // Check if the 'generate' command was used and set the appropriate flags.
-    if (results.command?.name == 'generate') {
-      generateAudio = results.command!.flag('audio');
-      generateImages = results.command!.flag('images');
-      generateVideos = results.command!.flag('videos');
-    }
-
     // Generate audio
-    if (generateAudio) {
-      final Generator generator = AudioGenerator();
-      await generator.generate();
+    if (options.generateAudio) {
+      await AudioGenerator().generate();
     }
 
     // Generate images
-    if (generateImages) {
-      final Generator generator = ImageGenerator();
-      await generator.generate();
+    if (options.generateImages) {
+      await ImageGenerator().generate();
     }
 
     // Generate videos
-    if (generateVideos) {
-      final Generator generator = VideoGenerator();
-      await generator.generate();
+    if (options.generateVideos) {
+      await VideoGenerator().generate();
     }
 
     // If no generation type was specified, print an error message.
-    if (!generateAudio && !generateImages && !generateVideos) {
+    if (!options.generateAudio &&
+        !options.generateImages &&
+        !options.generateVideos) {
       logz.e('No generation type specified. Use --help for usage information.');
     }
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.
     logz.e(e.message);
     logz.i('');
-    _printUsage(argParser);
+    Cli.printUsage(pub.name);
   }
 }
