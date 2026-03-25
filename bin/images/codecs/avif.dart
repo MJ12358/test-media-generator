@@ -20,6 +20,14 @@ class AVIF extends Codec {
   String get encoder => 'libaom-av1';
 
   @override
+  /// AVIF is YUV-based, so we can include YUV pixel formats.
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.yuv420p,
+    PixelFormat.yuv422p,
+    PixelFormat.yuv444p,
+  ];
+
+  @override
   List<String> get encoderFlags => <String>[
     '-still-picture',
     '1',

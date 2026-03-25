@@ -32,6 +32,13 @@ class JPEG extends Codec {
   String get extension => 'jpg';
 
   @override
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.yuv420p,
+    PixelFormat.yuv422p,
+    PixelFormat.yuv444p,
+  ];
+
+  @override
   List<String> get encoderFlags {
     if (_progressive) {
       return <String>['-progressive', '1', '-q:v', '2'];

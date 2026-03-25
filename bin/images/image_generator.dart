@@ -14,7 +14,7 @@ class ImageGenerator extends Generator {
   String _getFileName(Codec codec, Size size, PixelFormat pixelFormat) {
     return '${codec.name}_'
         '${size.value}_'
-        '${pixelFormat.value}'
+        '${pixelFormat.name}'
         '.${codec.extension}';
   }
 
@@ -22,7 +22,7 @@ class ImageGenerator extends Generator {
     return <String>[
       'nullsrc=s=${size.value}',
       'geq=r=X/W*255:g=Y/H*255:b=128',
-      'format=${pixelFormat.value}',
+      'format=${pixelFormat.name}',
     ].join(',');
   }
 
@@ -43,8 +43,12 @@ class ImageGenerator extends Generator {
     return '$src,drawtext=$text';
   }
 
-  Future<void> _encode({required Codec codec, required Size size}) async {
-    final String filename = _getFileName(codec, size, codec.pixelFormat);
+  Future<void> _encode({
+    required Codec codec,
+    required Size size,
+    required PixelFormat pixelFormat,
+  }) async {
+    final String filename = _getFileName(codec, size, pixelFormat);
 
     final String outputPath = '$outputDir/$filename';
 
@@ -64,7 +68,7 @@ class ImageGenerator extends Generator {
         '-f',
         'lavfi',
         '-i',
-        _getDrawTextFilter(filename, size, codec.pixelFormat),
+        _getDrawTextFilter(filename, size, pixelFormat),
       ]);
 
       // Codec args
@@ -94,7 +98,9 @@ class ImageGenerator extends Generator {
   Future<void> generate() async {
     for (final Codec codec in Config.codecs) {
       for (final Size size in codec.sizes) {
-        await _encode(codec: codec, size: size);
+        for (final PixelFormat pixelFormat in codec.pixelFormats) {
+          await _encode(codec: codec, size: size, pixelFormat: pixelFormat);
+        }
       }
     }
 

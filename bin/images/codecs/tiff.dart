@@ -18,7 +18,12 @@ class TIFF extends Codec {
   String get extension => 'tiff';
 
   @override
-  PixelFormat get pixelFormat => PixelFormat.rgb48le;
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.rgb24,
+    PixelFormat.rgb48le,
+    PixelFormat.rgba,
+    PixelFormat.rgba64le,
+  ];
 
   @override
   /// TIFF is an uncompressed format, so we use very low resolutions

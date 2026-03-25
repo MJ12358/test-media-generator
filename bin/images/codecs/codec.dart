@@ -19,11 +19,8 @@ abstract class Codec {
   /// Optionally, this can be used to provide extra command-line arguments.
   List<String> get encoderFlags => <String>[];
 
-  /// The pixel format to be used with this codec.
-  ///
-  /// We default to [PixelFormat.rgb24] for all codecs,
-  /// since it is widely supported.
-  PixelFormat get pixelFormat => PixelFormat.rgb24;
+  /// The pixel formats supported by this codec.
+  List<PixelFormat> get pixelFormats => PixelFormat.values;
 
   /// A list of sizes(resolutions) to generate.
   List<Size> get sizes => Size.values;

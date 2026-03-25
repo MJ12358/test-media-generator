@@ -41,11 +41,11 @@ class WEBP extends Codec {
   String get extension => 'webp';
 
   @override
-  PixelFormat get pixelFormat {
+  List<PixelFormat> get pixelFormats {
     if (_lossless) {
-      return PixelFormat.rgba;
+      return <PixelFormat>[PixelFormat.rgb24, PixelFormat.rgba];
     } else {
-      return super.pixelFormat;
+      return <PixelFormat>[PixelFormat.yuv420p];
     }
   }
 

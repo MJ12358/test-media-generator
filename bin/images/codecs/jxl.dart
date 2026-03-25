@@ -18,7 +18,11 @@ class JXL extends Codec {
   String get extension => 'jxl';
 
   @override
-  PixelFormat get pixelFormat => PixelFormat.rgb48le;
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.rgb24,
+    PixelFormat.rgb48le,
+    PixelFormat.rgba,
+  ];
 
   @override
   String get encoder => 'libjxl';

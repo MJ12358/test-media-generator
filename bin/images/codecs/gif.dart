@@ -15,4 +15,8 @@ class GIF extends Codec {
 
   @override
   String get extension => 'gif';
+
+  @override
+  /// GIF uses the PAL8 pixel format.
+  List<PixelFormat> get pixelFormats => <PixelFormat>[PixelFormat.pal8];
 }

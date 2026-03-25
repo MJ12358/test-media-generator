@@ -31,6 +31,14 @@ class PNG extends Codec {
     return PNG._(is16Bit: true, isAlpha: false);
   }
 
+  /// {@macro test_media_generator.PNG}
+  ///
+  /// This constructor creates a 16-bit PNG with an alpha channel,
+  /// which provides higher color depth and supports transparency.
+  factory PNG.bit16Alpha() {
+    return PNG._(is16Bit: true, isAlpha: true);
+  }
+
   PNG._({required bool is16Bit, required bool isAlpha})
     : _is16Bit = is16Bit,
       _isAlpha = isAlpha;
@@ -38,7 +46,11 @@ class PNG extends Codec {
   @override
   String get name {
     if (_is16Bit) {
-      return 'png16';
+      if (_isAlpha) {
+        return 'png16_alpha';
+      } else {
+        return 'png16';
+      }
     } else if (_isAlpha) {
       return 'png_alpha';
     } else {
@@ -50,13 +62,19 @@ class PNG extends Codec {
   String get extension => 'png';
 
   @override
-  PixelFormat get pixelFormat {
+  List<PixelFormat> get pixelFormats {
+    final List<PixelFormat> formats = <PixelFormat>[];
     if (_is16Bit) {
-      return PixelFormat.rgb48le;
-    } else if (_isAlpha) {
-      return PixelFormat.rgba;
+      formats.add(PixelFormat.rgb48le);
+      if (_isAlpha) {
+        formats.add(PixelFormat.rgba64le);
+      }
     } else {
-      return super.pixelFormat;
+      formats.add(PixelFormat.rgb24);
+      if (_isAlpha) {
+        formats.add(PixelFormat.rgba);
+      }
     }
+    return formats;
   }
 }

@@ -18,6 +18,12 @@ class BMP extends Codec {
   String get extension => 'bmp';
 
   @override
+  List<PixelFormat> get pixelFormats => <PixelFormat>[
+    PixelFormat.rgb24,
+    PixelFormat.bgr24,
+  ];
+
+  @override
   /// BMP is an uncompressed format, so we use very low resolutions
   /// to keep file sizes manageable.
   List<Size> get sizes => <Size>[
