@@ -18,28 +18,27 @@ class ImageGenerator extends Generator {
         '.${codec.extension}';
   }
 
+  String _getSource(Size size, PixelFormat pixelFormat) {
+    return <String>[
+      'nullsrc=s=${size.value}',
+      'geq=r=X/W*255:g=Y/H*255:b=128',
+      'format=${pixelFormat.value}',
+    ].join(',');
+  }
+
   String _getDrawTextFilter(
     String filename,
     Size size,
     PixelFormat pixelFormat,
   ) {
-    final String src = <String>[
-      'nullsrc=s=${size.value}',
-      'geq=r=X/W*255:g=Y/H*255:b=128',
-      'format=${pixelFormat.value}',
-    ].join(',');
+    final String src = _getSource(size, pixelFormat);
 
-    final String text = <String>[
-      'fontfile=$fontPath',
-      "text='$filename'",
-      'x=(w-text_w)/2',
-      'y=(h-text_h)/2',
-      'fontsize=h/15',
-      'fontcolor=white',
-      'box=1',
-      'boxcolor=black@0.6',
-      'boxborderw=10',
-    ].join(':');
+    final String text = DrawTextBuilder.build(
+      fontPath: fontPath,
+      text: filename,
+      height: size.height,
+      width: size.width,
+    );
 
     return '$src,drawtext=$text';
   }
