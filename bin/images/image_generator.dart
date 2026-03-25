@@ -37,7 +37,7 @@ class ImageGenerator extends Generator<ImageSpec> {
     PixelFormat pixelFormat,
   ) {
     final String src = _getSource(size, pixelFormat);
-    final String text = DrawTextBuilder.build(
+    final String text = DrawText.build(
       fontPath: fontPath,
       text: filename,
       height: size.height,

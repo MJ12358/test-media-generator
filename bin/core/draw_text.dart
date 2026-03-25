@@ -1,7 +1,7 @@
 /// A helper class to build the drawtext filter.
 /// This is used to generate the filter string for the drawtext filter,
 /// which is used to overlay text on the generated images and videos.
-class DrawTextBuilder {
+class DrawText {
   /// Builds the drawtext filter string.
   /// The [fontPath] is the path to the font file to be used.
   /// The [text] is the text to be displayed on the image or video.

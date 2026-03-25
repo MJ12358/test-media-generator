@@ -42,7 +42,7 @@ class VideoGenerator extends Generator<VideoSpec> {
 
   String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
     final String src = _getSource(size, frameRate);
-    final String text = DrawTextBuilder.build(
+    final String text = DrawText.build(
       fontPath: fontPath,
       text: filename,
       height: size.height,
