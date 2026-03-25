@@ -26,4 +26,5 @@ part 'core/frame_rate.dart';
 part 'core/pixel_format.dart';
 part 'core/size.dart';
 part 'encoder_mapper.dart';
+part 'spec.dart';
 part 'video_generator.dart';

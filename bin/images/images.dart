@@ -20,3 +20,4 @@ part 'config.dart';
 part 'core/pixel_format.dart';
 part 'core/size.dart';
 part 'image_generator.dart';
+part 'spec.dart';

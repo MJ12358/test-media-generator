@@ -1,17 +1,5 @@
 part of images;
 
-class ImageSpec {
-  final Codec codec;
-  final Size size;
-  final PixelFormat pixelFormat;
-
-  ImageSpec({
-    required this.codec,
-    required this.size,
-    required this.pixelFormat,
-  });
-}
-
 /// {@template test_media_generator.ImageGenerator}
 /// This class is responsible for generating test image files.
 /// {@endtemplate}

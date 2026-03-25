@@ -1,21 +1,5 @@
 part of audio;
 
-class AudioSpec {
-  final Codec codec;
-  final BitDepth bitDepth;
-  final BitRate bitRate;
-  final ChannelLayout channels;
-  final SampleRate sampleRate;
-
-  AudioSpec({
-    required this.codec,
-    required this.bitDepth,
-    required this.bitRate,
-    required this.channels,
-    required this.sampleRate,
-  });
-}
-
 /// {@template test_media_generator.AudioGenerator}
 /// This class is responsible for generating test audio files.
 /// {@endtemplate}

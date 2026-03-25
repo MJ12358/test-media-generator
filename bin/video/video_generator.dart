@@ -1,19 +1,5 @@
 part of video;
 
-class VideoSpec {
-  final Codec codec;
-  final Size size;
-  final FrameRate frameRate;
-  final PixelFormat pixelFormat;
-
-  VideoSpec({
-    required this.codec,
-    required this.size,
-    required this.frameRate,
-    required this.pixelFormat,
-  });
-}
-
 /// {@template test_media_generator.VideoGenerator}
 /// This class is responsible for generating test video files.
 /// {@endtemplate}

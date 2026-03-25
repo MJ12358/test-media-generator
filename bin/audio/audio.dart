@@ -22,3 +22,4 @@ part 'core/bit_rate.dart';
 part 'core/channel_layout.dart';
 part 'core/sample_rate.dart';
 part 'core/speaker_position.dart';
+part 'spec.dart';
