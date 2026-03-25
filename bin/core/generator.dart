@@ -50,6 +50,8 @@ abstract class Generator<T> {
     }
   }
 
+  /// Cleans up any invalid output files that may have been
+  /// created during the encoding process.
   void _cleanup(String outputPath, String filename) {
     final File file = File(outputPath);
     if (file.existsSync() && file.lengthSync() == 0) {

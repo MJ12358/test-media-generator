@@ -18,6 +18,8 @@ class VideoGenerator extends Generator<VideoSpec> {
     fontPath = Config.fontPath;
   }
 
+  /// Generates a source filter string for the
+  /// given size and frame rate.
   String _getSource(Size size, FrameRate frameRate) {
     return <String>[
       'testsrc=duration=$duration',
@@ -26,6 +28,8 @@ class VideoGenerator extends Generator<VideoSpec> {
     ].join(':');
   }
 
+  /// Generates a video filter string for the
+  /// given size, frame rate, and filename.
   String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
     final String src = _getSource(size, frameRate);
     final String text = DrawText.build(

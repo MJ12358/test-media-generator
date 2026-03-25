@@ -11,6 +11,8 @@ class ImageGenerator extends Generator<ImageSpec> {
     fontPath = Config.fontPath;
   }
 
+  /// Generates a source filter string for the
+  /// given size and pixel format.
   String _getSource(Size size, PixelFormat pixelFormat) {
     return <String>[
       'nullsrc=s=${size.value}',
@@ -19,6 +21,8 @@ class ImageGenerator extends Generator<ImageSpec> {
     ].join(',');
   }
 
+  /// Generates a drawtext filter string for the
+  /// given filename, size, and pixel format.
   String _getDrawTextFilter(
     String filename,
     Size size,

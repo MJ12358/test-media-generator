@@ -11,6 +11,8 @@ class AudioGenerator extends Generator<AudioSpec> {
     duration = Config.duration;
   }
 
+  /// Generates a sine wave audio filter based on the
+  /// channel layout and sample rate.
   String _getAudioFilter(ChannelLayout channels, SampleRate sampleRate) {
     final double segment = duration / channels.count;
     final List<String> expr = <String>[];
