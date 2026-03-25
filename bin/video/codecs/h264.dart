@@ -38,11 +38,17 @@ class H264 extends Codec {
     if (backend is Nvidia || backend is Vaapi) {
       return <Size>[
         Size.s140,
+        Size.s140v,
         Size.s360,
+        Size.s360v,
         Size.s720,
+        Size.s720v,
         Size.s1080,
+        Size.s1080v,
         Size.s1440,
+        Size.s1440v,
         Size.s2160,
+        Size.s2160v,
       ];
     } else {
       return super.sizes(backend);

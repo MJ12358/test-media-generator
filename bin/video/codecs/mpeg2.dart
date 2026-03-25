@@ -29,11 +29,15 @@ class MPEG2 extends Codec {
   /// to keep file sizes manageable.
   List<Size> sizes(_) => <Size>[
     Size.s140,
+    Size.s140v,
     Size.s360,
+    Size.s360v,
     Size.s720,
+    Size.s720v,
     Size.s1080,
+    Size.s1080v,
     Size.s1440,
-    Size.s2160,
+    Size.s1440v,
   ];
 
   @override

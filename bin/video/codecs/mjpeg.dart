@@ -34,7 +34,16 @@ class MJPEG extends Codec {
   @override
   /// MJPEG is extremely inefficient, so we use restricted resolutions
   /// to keep file sizes manageable.
-  List<Size> sizes(_) => <Size>[Size.s140, Size.s360, Size.s720, Size.s1080];
+  List<Size> sizes(_) => <Size>[
+    Size.s140,
+    Size.s140v,
+    Size.s360,
+    Size.s360v,
+    Size.s720,
+    Size.s720v,
+    Size.s1080,
+    Size.s1080v,
+  ];
 
   @override
   /// These tunings are to prevent buffer over/under flows and packet too large errors.

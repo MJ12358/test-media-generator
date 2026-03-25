@@ -25,30 +25,29 @@ class VideoGenerator extends Generator {
     PixelFormat pixelFormat,
   ) {
     return '${codec.name}_'
-        '${size.name}_'
+        '${size.value}_'
         '${frameRate.name}_'
         '${pixelFormat.name}'
         '.${codec.extension}';
   }
 
-  String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
-    final String src = <String>[
+  String _getSource(Size size, FrameRate frameRate) {
+    return <String>[
       'testsrc=duration=$duration',
       'size=${size.value}',
       'rate=${frameRate.value}',
     ].join(':');
+  }
 
-    final String text = <String>[
-      'fontfile=$fontPath',
-      "text='$filename'",
-      'x=(w-text_w)/2',
-      'y=(h-text_h)/2',
-      'fontsize=h/15',
-      'fontcolor=white',
-      'box=1',
-      'boxcolor=black@0.6',
-      'boxborderw=10',
-    ].join(':');
+  String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
+    final String src = _getSource(size, frameRate);
+
+    final String text = DrawTextBuilder.build(
+      fontPath: fontPath,
+      text: filename,
+      height: size.height,
+      width: size.width,
+    );
 
     return '$src,drawtext=$text';
   }
@@ -104,7 +103,7 @@ class VideoGenerator extends Generator {
 
       // CPU-only pixel format
       if (EncoderMapper.isCpuEncoder(encoder)) {
-        cmd.add(<String>['-pix_fmt', pixelFormat.value]);
+        cmd.add(<String>['-pix_fmt', pixelFormat.name]);
       }
 
       // Apply codec tuning

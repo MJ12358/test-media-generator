@@ -10,46 +10,43 @@ part of video;
 enum PixelFormat {
   /// The YUV420P pixel format, which uses 12 bits per pixel
   /// (8 bits for the Y channel and 4 bits for the U and V channels).
-  yuv420p('yuv420p'),
+  yuv420p,
 
   /// The YUV422P pixel format, which uses 16 bits per pixel
   /// (8 bits for the Y channel and 8 bits for the U and V channels).
-  yuv422p('yuv422p'),
+  yuv422p,
 
   /// The YUV444P pixel format, which uses 24 bits per pixel
   /// (8 bits for each of the Y, U, and V channels).
-  yuv444p('yuv444p'),
+  yuv444p,
 
   /// The YUVJ420P pixel format, which is similar to YUV420P but uses
   /// full range (0-255) for the Y, U, and V channels instead
   /// of the limited range (16-235 for Y and 16-240 for U and V).
-  yuvj420p('yuvj420p'),
+  yuvj420p,
 
   /// The YUVJ422P pixel format, which is similar to YUV422P but uses
   /// full range (0-255) for the Y, U, and V channels instead
   /// of the limited range (16-235 for Y and 16-240 for U and V).
-  yuvj422p('yuvj422p'),
+  yuvj422p,
 
   /// The YUVJ444P pixel format, which is similar to YUV444P but uses
   /// full range (0-255) for the Y, U, and V channels instead
   /// of the limited range (16-235 for Y and 16-240 for U and V).
-  yuvj444p('yuvj444p'),
+  yuvj444p,
 
   /// The YUV420P10 pixel format, which uses 15 bits per pixel
   /// (10 bits for the Y channel and 5 bits for the U and V channels).
-  yuv420p10('yuv420p10le'),
+  yuv420p10le,
 
   /// The YUV422P10 pixel format, which uses 20 bits per pixel
   /// (10 bits for the Y channel and 10 bits for the U and V channels).
-  yuv422p10('yuv422p10le'),
+  yuv422p10le,
 
   /// The YUV444P10 pixel format, which uses 30 bits per pixel
   /// (10 bits for each of the Y, U, and V channels).
-  yuv444p10('yuv444p10le');
+  yuv444p10le;
 
   /// {@macro test_media_generator.video.PixelFormat}
-  const PixelFormat(this.value);
-
-  /// The string value of the pixel format, such as 'yuv420p'.
-  final String value;
+  const PixelFormat();
 }
