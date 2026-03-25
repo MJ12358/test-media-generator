@@ -15,6 +15,7 @@ class Config {
     PNG(),
     PNG.alpha(),
     PNG.bit16(),
+    PNG.bit16Alpha(),
     WEBP.lossy(),
     WEBP.lossless(),
     BMP(),
