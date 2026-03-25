@@ -29,5 +29,6 @@ class TIFF extends Codec {
     Size.s256,
     Size.s512,
     Size.s1080,
+    Size.s1080v,
   ];
 }
