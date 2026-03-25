@@ -7,7 +7,6 @@ import 'package:path/path.dart' as p;
 
 import '../core/command.dart';
 import '../core/draw_text_builder.dart';
-import '../core/encoding_exception.dart';
 import '../core/generator.dart';
 
 part 'backend/backend.dart';

@@ -1,21 +1,26 @@
 part of images;
 
+class ImageSpec {
+  final Codec codec;
+  final Size size;
+  final PixelFormat pixelFormat;
+
+  ImageSpec({
+    required this.codec,
+    required this.size,
+    required this.pixelFormat,
+  });
+}
+
 /// {@template test_media_generator.ImageGenerator}
 /// This class is responsible for generating test image files.
 /// {@endtemplate}
-class ImageGenerator extends Generator {
+class ImageGenerator extends Generator<ImageSpec> {
   late final String fontPath;
 
   /// {@macro test_media_generator.ImageGenerator}
   ImageGenerator() : super(outputDir: Config.outputDir) {
     fontPath = Config.fontPath;
-  }
-
-  String _getFileName(Codec codec, Size size, PixelFormat pixelFormat) {
-    return '${codec.name}_'
-        '${size.value}_'
-        '${pixelFormat.name}'
-        '.${codec.extension}';
   }
 
   String _getSource(Size size, PixelFormat pixelFormat) {
@@ -32,66 +37,46 @@ class ImageGenerator extends Generator {
     PixelFormat pixelFormat,
   ) {
     final String src = _getSource(size, pixelFormat);
-
     final String text = DrawTextBuilder.build(
       fontPath: fontPath,
       text: filename,
       height: size.height,
       width: size.width,
     );
-
     return '$src,drawtext=$text';
   }
 
-  Future<void> _encode({
-    required Codec codec,
-    required Size size,
-    required PixelFormat pixelFormat,
-  }) async {
-    final String filename = _getFileName(codec, size, pixelFormat);
+  @override
+  String getFileName(ImageSpec spec) {
+    return '${spec.codec.name}_'
+        '${spec.size.value}_'
+        '${spec.pixelFormat.name}'
+        '.${spec.codec.extension}';
+  }
 
-    final String outputPath = '$outputDir/$filename';
+  @override
+  Command getCommand(ImageSpec spec, String outputPath, String filename) {
+    final Command cmd = Command();
 
-    if (File(outputPath).existsSync()) {
-      logz.w('Skipping (exists): $filename');
-      return;
-    }
+    // Global args
+    cmd.add(<String>['-y']);
 
-    try {
-      final Command cmd = Command();
+    // Input args
+    cmd.add(<String>[
+      '-f',
+      'lavfi',
+      '-i',
+      _getDrawTextFilter(filename, spec.size, spec.pixelFormat),
+    ]);
 
-      // Global args
-      cmd.add(<String>['-y']);
+    // Codec args
+    cmd.add(spec.codec.encoderFlags);
 
-      // Input args
-      cmd.add(<String>[
-        '-f',
-        'lavfi',
-        '-i',
-        _getDrawTextFilter(filename, size, pixelFormat),
-      ]);
+    // Final args
+    cmd.add(<String>['-frames:v', '1']);
+    cmd.add(<String>[outputPath]);
 
-      // Codec args
-      cmd.add(codec.encoderFlags);
-
-      // Final args
-      cmd.add(<String>['-frames:v', '1']);
-      cmd.add(<String>[outputPath]);
-
-      logz.i('Encoding: $filename');
-
-      await cmd.run(filename);
-    } on EncodingException catch (e) {
-      logz.e(e.message);
-    } catch (e) {
-      logz.e('Exception encoding $filename: $e');
-    } finally {
-      final File file = File(outputPath);
-      if (file.existsSync() && file.lengthSync() == 0) {
-        logz.w('Cleaning up invalid output file: $filename');
-        file.deleteSync();
-      }
-    }
+    return cmd;
   }
 
   @override
@@ -99,7 +84,9 @@ class ImageGenerator extends Generator {
     for (final Codec codec in Config.codecs) {
       for (final Size size in codec.sizes) {
         for (final PixelFormat pixelFormat in codec.pixelFormats) {
-          await _encode(codec: codec, size: size, pixelFormat: pixelFormat);
+          await encode(
+            ImageSpec(codec: codec, size: size, pixelFormat: pixelFormat),
+          );
         }
       }
     }

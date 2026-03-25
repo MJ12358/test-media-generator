@@ -1,37 +1,34 @@
 part of audio;
 
+class AudioSpec {
+  final Codec codec;
+  final BitDepth bitDepth;
+  final BitRate bitRate;
+  final ChannelLayout channels;
+  final SampleRate sampleRate;
+
+  AudioSpec({
+    required this.codec,
+    required this.bitDepth,
+    required this.bitRate,
+    required this.channels,
+    required this.sampleRate,
+  });
+}
+
 /// {@template test_media_generator.AudioGenerator}
 /// This class is responsible for generating test audio files.
 /// {@endtemplate}
-class AudioGenerator extends Generator {
-  static const int _duration = Config.duration;
+class AudioGenerator extends Generator<AudioSpec> {
+  late final int duration;
 
   /// {@macro test_media_generator.AudioGenerator}
-  AudioGenerator() : super(outputDir: Config.outputDir);
-
-  String _getFileName(
-    Codec codec,
-    BitDepth bitDepth,
-    BitRate bitRate,
-    ChannelLayout channels,
-    SampleRate sampleRate,
-  ) {
-    return '${codec.name}_'
-        '${bitDepth.name}_'
-        '${bitRate.name}_'
-        '${channels.label}_'
-        '${sampleRate.name}'
-        '.${codec.extension}';
+  AudioGenerator() : super(outputDir: Config.outputDir) {
+    duration = Config.duration;
   }
 
-  // String _getAudioFilter(SampleRate sampleRate) {
-  //   return 'sine=frequency=$_sineFrequency'
-  //       ':sample_rate=${sampleRate.value}:'
-  //       'duration=$_duration';
-  // }
-
   String _getAudioFilter(ChannelLayout channels, SampleRate sampleRate) {
-    final double segment = _duration / channels.count;
+    final double segment = duration / channels.count;
     final List<String> expr = <String>[];
 
     for (int i = 0; i < channels.count; i++) {
@@ -42,71 +39,52 @@ class AudioGenerator extends Generator {
       expr.add('${position.sineExpr()}*between(t,$start,$end)');
     }
 
-    return 'aevalsrc="${expr.join('|')}:s=${sampleRate.value}:d=$_duration"';
+    return 'aevalsrc="${expr.join('|')}:s=${sampleRate.value}:d=$duration"';
   }
 
-  Future<void> _encode({
-    required Codec codec,
-    required BitDepth bitDepth,
-    required BitRate bitRate,
-    required ChannelLayout channels,
-    required SampleRate sampleRate,
-  }) async {
-    final String filename = _getFileName(
-      codec,
-      bitDepth,
-      bitRate,
-      channels,
-      sampleRate,
-    );
+  @override
+  String getFileName(AudioSpec spec) {
+    return '${spec.codec.name}_'
+        '${spec.bitDepth.name}_'
+        '${spec.bitRate.name}_'
+        '${spec.channels.label}_'
+        '${spec.sampleRate.name}'
+        '.${spec.codec.extension}';
+  }
 
-    final String outputPath = '$outputDir/$filename';
+  @override
+  Command getCommand(AudioSpec spec, String outputPath, String filename) {
+    final Command cmd = Command();
 
-    if (File(outputPath).existsSync()) {
-      logz.w('Skipping (exists): $filename');
-      return;
-    }
+    // Global args
+    cmd.add(<String>['-y']);
 
-    try {
-      final Command cmd = Command();
+    // Input args
+    cmd.add(<String>[
+      '-f',
+      'lavfi',
+      '-i',
+      _getAudioFilter(spec.channels, spec.sampleRate),
+    ]);
 
-      // Global args
-      cmd.add(<String>['-y']);
+    // Apply channels
+    cmd.add(<String>['-ac', '${spec.channels.count}']);
 
-      // Input args
-      cmd.add(<String>[
-        '-f',
-        'lavfi',
-        '-i',
-        _getAudioFilter(channels, sampleRate),
-      ]);
+    // Add encoder
+    cmd.add(<String>['-c:a', spec.codec.encoder]);
 
-      // Apply channels
-      cmd.add(<String>['-ac', '${channels.count}']);
+    // Add bit depth if supported
+    // if (spec.codec.bitDepths.contains(spec.bitDepth)) {
+    //   cmd.add(<String>['-sample_fmt', spec.bitDepth.ffmpegName]);
+    // }
 
-      // Add encoder
-      cmd.add(<String>['-c:a', codec.encoder]);
+    // Add bit rate
+    cmd.add(<String>['-b:a', '${spec.bitRate.value}k']);
 
-      // Add bit rate
-      cmd.add(<String>['-b:a', '${bitRate.value}k']);
+    // Final args
+    cmd.add(<String>[outputPath]);
 
-      // Final args
-      cmd.add(<String>[outputPath]);
-
-      logz.i('Encoding: $filename');
-
-      await cmd.run(filename);
-    } on EncodingException catch (e) {
-      logz.e(e.message);
-    } catch (e) {
-      logz.e('Exception encoding $filename: $e');
-    } finally {
-      final File file = File(outputPath);
-      if (file.existsSync() && file.lengthSync() == 0) {
-        logz.w('Cleaning up invalid output file: $filename');
-        file.deleteSync();
-      }
-    }
+    return cmd;
   }
 
   @override
@@ -116,12 +94,14 @@ class AudioGenerator extends Generator {
         for (final BitRate bitRate in codec.bitRates) {
           for (final ChannelLayout channels in codec.channels) {
             for (final SampleRate sampleRate in codec.sampleRates) {
-              await _encode(
-                codec: codec,
-                bitDepth: bitDepth,
-                bitRate: bitRate,
-                channels: channels,
-                sampleRate: sampleRate,
+              await encode(
+                AudioSpec(
+                  codec: codec,
+                  bitDepth: bitDepth,
+                  bitRate: bitRate,
+                  channels: channels,
+                  sampleRate: sampleRate,
+                ),
               );
             }
           }

@@ -1,9 +1,23 @@
 part of video;
 
+class VideoSpec {
+  final Codec codec;
+  final Size size;
+  final FrameRate frameRate;
+  final PixelFormat pixelFormat;
+
+  VideoSpec({
+    required this.codec,
+    required this.size,
+    required this.frameRate,
+    required this.pixelFormat,
+  });
+}
+
 /// {@template test_media_generator.VideoGenerator}
 /// This class is responsible for generating test video files.
 /// {@endtemplate}
-class VideoGenerator extends Generator {
+class VideoGenerator extends Generator<VideoSpec> {
   /// {@macro test_media_generator.video.Backend}
   static late Backend backend;
   late final int duration;
@@ -18,19 +32,6 @@ class VideoGenerator extends Generator {
     fontPath = Config.fontPath;
   }
 
-  String _getFileName(
-    Codec codec,
-    Size size,
-    FrameRate frameRate,
-    PixelFormat pixelFormat,
-  ) {
-    return '${codec.name}_'
-        '${size.value}_'
-        '${frameRate.name}_'
-        '${pixelFormat.name}'
-        '.${codec.extension}';
-  }
-
   String _getSource(Size size, FrameRate frameRate) {
     return <String>[
       'testsrc=duration=$duration',
@@ -41,95 +42,75 @@ class VideoGenerator extends Generator {
 
   String _getVideoFilter(Size size, FrameRate frameRate, String filename) {
     final String src = _getSource(size, frameRate);
-
     final String text = DrawTextBuilder.build(
       fontPath: fontPath,
       text: filename,
       height: size.height,
       width: size.width,
     );
-
     return '$src,drawtext=$text';
   }
 
-  Future<void> _encode({
-    required Codec codec,
-    required Size size,
-    required FrameRate frameRate,
-    required PixelFormat pixelFormat,
-  }) async {
-    final String filename = _getFileName(codec, size, frameRate, pixelFormat);
+  @override
+  String getFileName(VideoSpec spec) {
+    return '${spec.codec.name}_'
+        '${spec.size.value}_'
+        '${spec.frameRate.name}_'
+        '${spec.pixelFormat.name}'
+        '.${spec.codec.extension}';
+  }
 
-    final String outputPath = '$outputDir/$filename';
+  @override
+  Command getCommand(VideoSpec spec, String outputPath, String filename) {
+    final String encoder = EncoderMapper.select(spec.codec, backend);
+    final String? filter = EncoderMapper.getFilter(encoder, backend);
 
-    if (File(outputPath).existsSync()) {
-      logz.w('Skipping (exists): $filename');
-      return;
+    final Command cmd = Command();
+
+    // Global args
+    cmd.add(backend.hwDeviceArgs);
+    cmd.add(<String>['-y']);
+
+    // Input args
+    cmd.add(<String>[
+      '-f',
+      'lavfi',
+      '-i',
+      _getVideoFilter(spec.size, spec.frameRate, filename),
+      '-f',
+      'lavfi',
+      '-i',
+      'sine=frequency=$sineFrequency',
+    ]);
+
+    // Codec and filter args
+    if (filter != null) {
+      cmd.add(<String>['-vf', filter]);
     }
 
-    try {
-      final String encoder = EncoderMapper.select(codec, backend);
-      final String? filter = EncoderMapper.getFilter(encoder, backend);
-
-      final Command cmd = Command();
-
-      // Global args
-      cmd.add(backend.hwDeviceArgs);
-      cmd.add(<String>['-y']);
-
-      // Input args
-      cmd.add(<String>[
-        '-f',
-        'lavfi',
-        '-i',
-        _getVideoFilter(size, frameRate, filename),
-        '-f',
-        'lavfi',
-        '-i',
-        'sine=frequency=$sineFrequency',
-      ]);
-
-      // Codec and filter args
-      if (filter != null) {
-        cmd.add(<String>['-vf', filter]);
-      }
-
-      if (EncoderMapper.needsStrict(encoder)) {
-        cmd.add(<String>['-strict', '-2']);
-      }
-
-      cmd.add(<String>['-c:v', encoder]);
-      cmd.add(<String>['-c:a', codec.audio]);
-
-      // CPU-only pixel format
-      if (EncoderMapper.isCpuEncoder(encoder)) {
-        cmd.add(<String>['-pix_fmt', pixelFormat.name]);
-      }
-
-      // Apply codec tuning
-      cmd.add(codec.tuning);
-
-      // Add encoder-specific flags
-      cmd.add(backend.encoderFlags(encoder));
-
-      // Final args
-      cmd.add(<String>['-shortest']);
-      cmd.add(<String>[outputPath]);
-
-      logz.i('Encoding: $filename');
-
-      await cmd.run(filename);
-    } on EncodingException catch (e) {
-      logz.e(e.message);
-    } catch (e) {
-      logz.e('Exception encoding $filename: $e');
-    } finally {
-      final File file = File(outputPath);
-      if (file.existsSync() && file.lengthSync() == 0) {
-        logz.w('Cleaning up invalid output file: $filename');
-        file.deleteSync();
-      }
+    if (EncoderMapper.needsStrict(encoder)) {
+      cmd.add(<String>['-strict', '-2']);
     }
+
+    cmd.add(<String>['-c:v', encoder]);
+    cmd.add(<String>['-c:a', spec.codec.audio]);
+
+    // CPU-only pixel format
+    if (EncoderMapper.isCpuEncoder(encoder)) {
+      cmd.add(<String>['-pix_fmt', spec.pixelFormat.name]);
+    }
+
+    // Apply codec tuning
+    cmd.add(spec.codec.tuning);
+
+    // Add encoder-specific flags
+    cmd.add(backend.encoderFlags(encoder));
+
+    // Final args
+    cmd.add(<String>['-shortest']);
+    cmd.add(<String>[outputPath]);
+
+    return cmd;
   }
 
   @override
@@ -138,11 +119,13 @@ class VideoGenerator extends Generator {
       for (final Size size in codec.sizes(backend)) {
         for (final FrameRate frameRate in codec.framerates) {
           for (final PixelFormat pixelFormat in codec.pixelFormats) {
-            await _encode(
-              codec: codec,
-              size: size,
-              frameRate: frameRate,
-              pixelFormat: pixelFormat,
+            await encode(
+              VideoSpec(
+                codec: codec,
+                size: size,
+                frameRate: frameRate,
+                pixelFormat: pixelFormat,
+              ),
             );
           }
         }

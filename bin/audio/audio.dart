@@ -1,12 +1,9 @@
 library audio;
 
-import 'dart:io';
-
 import 'package:dart_logz/dart_logz.dart';
 import 'package:path/path.dart' as p;
 
 import '../core/command.dart';
-import '../core/encoding_exception.dart';
 import '../core/generator.dart';
 
 part 'audio_generator.dart';
