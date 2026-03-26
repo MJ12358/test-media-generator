@@ -10,28 +10,33 @@ part of audio;
 enum BitDepth {
   /// 8-bit audio has a dynamic range of 48 dB
   /// and is typically used for low-quality audio.
-  bd8(8),
+  bd8(8, 'u8'),
 
   /// 16-bit audio has a dynamic range of 96 dB
   /// and is the standard for CD-quality audio.
-  bd16(16),
+  bd16(16, 's16'),
 
   /// 24-bit audio has a dynamic range of 144 dB
   /// and is used in professional audio recording.
-  bd24(24),
+  /// FFmpeg uses 32-bit sample format (s32) to represent 24-bit audio,
+  /// so we map it to s32 for encoding.
+  bd24(24, 's32'),
 
   /// 32-bit audio has a dynamic range of 192 dB
   /// and is used for high-resolution audio.
-  bd32(32);
+  bd32(32, 's32');
 
   /// {@macro test_media_generator.audio.BitDepth}
-  const BitDepth(this.value);
-
-  /// The friendly name of the bit depth, such as '16bit'.
-  String get name {
-    return '${value}bit';
-  }
+  const BitDepth(this.value, this.format);
 
   /// The integer value of the bit depth in bits.
   final int value;
+
+  /// The corresponding FFmpeg sample format string for this bit depth.
+  final String format;
+
+  /// The friendly label of the bit depth, such as '16bit'.
+  String get label {
+    return '${value}bit';
+  }
 }
