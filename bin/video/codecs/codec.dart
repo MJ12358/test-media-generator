@@ -1,7 +1,9 @@
 part of video;
 
+/// {@template test_media_generator.video.Codec}
 /// This file defines the abstract base class [Codec]
 /// which serves as a blueprint for specific video codec implementations.
+/// {@endtemplate}
 abstract class Codec {
   /// The name of the codec.
   String get name;
