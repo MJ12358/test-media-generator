@@ -44,7 +44,7 @@ abstract class Generator<T> {
     } on EncodingException catch (e) {
       logz.e(e.message);
     } catch (e) {
-      logz.e('Exception encoding $filename: $e');
+      logz.e('Unknown Exception: $filename: $e');
     } finally {
       _cleanup(outputPath, filename);
     }
