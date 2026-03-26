@@ -22,11 +22,11 @@ enum FrameRate {
   /// {@macro test_media_generator.video.FrameRate}
   const FrameRate(this.value);
 
-  /// The friendly name of the frame rate, such as '30fps'.
-  String get name {
-    return '${value}fps';
-  }
-
   /// The integer value of the frame rate in frames per second.
   final int value;
+
+  /// The friendly label of the frame rate, such as '30fps'.
+  String get label {
+    return '${value}fps';
+  }
 }

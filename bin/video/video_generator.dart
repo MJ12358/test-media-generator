@@ -45,7 +45,7 @@ class VideoGenerator extends Generator<VideoSpec> {
   String getFileName(VideoSpec spec) {
     return '${spec.codec.name}_'
         '${spec.size.value}_'
-        '${spec.frameRate.name}_'
+        '${spec.frameRate.label}_'
         '${spec.pixelFormat.name}'
         '.${spec.codec.extension}';
   }
