@@ -21,7 +21,7 @@ class Command {
   ///
   /// Throws an [EncodingException] if the command fails.
   Future<void> run(String filename) async {
-    logz.d(toString());
+    logz.i(toString());
 
     final ProcessResult result = await Process.run(_exe, _args);
 
