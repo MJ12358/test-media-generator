@@ -31,11 +31,11 @@ enum SampleRate {
   /// {@macro test_media_generator.audio.SampleRate}
   const SampleRate(this.value);
 
-  /// The friendly name of the sample rate, such as '96kHz'.
-  String get name {
-    return '${value ~/ 1000}kHz';
-  }
-
   /// The integer value of the sample rate in Hz.
   final int value;
+
+  /// The friendly label of the sample rate, such as '96kHz'.
+  String get label {
+    return '${value ~/ 1000}kHz';
+  }
 }

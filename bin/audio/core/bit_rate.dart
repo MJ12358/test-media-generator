@@ -38,11 +38,11 @@ enum BitRate {
   /// {@macro test_media_generator.audio.BitRate}
   const BitRate(this.value);
 
-  /// The friendly name of the bit rate, such as '128kbps'.
-  String get name {
-    return '${value}kbps';
-  }
-
   /// The integer value of the bit rate in kbps.
   final int value;
+
+  /// The friendly label of the bit rate, such as '128kbps'.
+  String get label {
+    return '${value}kbps';
+  }
 }
