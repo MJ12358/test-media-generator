@@ -1,7 +1,9 @@
 part of audio;
 
+/// {@template test_media_generator.audio.Codec}
 /// This file defines the abstract base class [Codec]
 /// which serves as a blueprint for specific audio codec implementations.
+/// {@endtemplate}
 abstract class Codec {
   /// The name of the codec.
   String get name;
