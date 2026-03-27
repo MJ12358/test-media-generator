@@ -1,5 +1,12 @@
 # Test Media Generator
 
+## [1.1.0]
+
+- Add 'format' to 'BitDepth'.
+- Fix audio generator filter.
+- Include labels for 'BitDepth', 'BitRate', 'SampleRate' and 'SpeakerPosition'.
+- Update 'EncodingException' message format.
+
 ## [1.0.0]
 
 - Initial release.
