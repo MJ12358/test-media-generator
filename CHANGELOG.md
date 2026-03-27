@@ -6,6 +6,7 @@
 - Fix audio generator filter.
 - Include labels for 'BitDepth', 'BitRate', 'SampleRate' and 'SpeakerPosition'.
 - Update 'EncodingException' message format.
+- Update workflows.
 
 ## [1.0.0]
 
