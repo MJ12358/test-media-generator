@@ -51,19 +51,25 @@ jobs:
       - name: Get Dependencies
         run: dart pub get
 
+      - name: Set Name
+        id: name
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ needs.setup.outputs.version }}';
+            const baseName = '${{ matrix.name }}';
+            const extension = '${{ matrix.extension }}';
+            const executableName = `${baseName}_v${version}${extension}`;
+            core.setOutput('EXECUTABLE_NAME', executableName);
+
       - name: Compile
-        id: compile
-        run: |
-          VERSION="${{ needs.setup.outputs.version }}"
-          EXECUTABLE_NAME="${{ matrix.name }}_v${VERSION}${{ matrix.extension }}"
-          dart compile exe bin/test_media_generator.dart -o bin/$EXECUTABLE_NAME
-          echo "EXECUTABLE_NAME=$EXECUTABLE_NAME" >> $GITHUB_OUTPUT
+        run: dart compile exe bin/test_media_generator.dart -o bin/${{ steps.name.outputs.EXECUTABLE_NAME }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.compile.outputs.EXECUTABLE_NAME }}
-          path: bin/${{ steps.compile.outputs.EXECUTABLE_NAME }}
+          name: ${{ steps.name.outputs.EXECUTABLE_NAME }}
+          path: bin/${{ steps.name.outputs.EXECUTABLE_NAME }}
           if-no-files-found: error
 
   release:
