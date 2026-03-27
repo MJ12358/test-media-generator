@@ -15,7 +15,7 @@ class ImageGenerator extends Generator<ImageSpec> {
   /// given size and pixel format.
   String _getSource(Size size, PixelFormat pixelFormat) {
     return <String>[
-      'nullsrc=s=${size.value}',
+      'nullsrc=s=${size.label}',
       'geq=r=X/W*255:g=Y/H*255:b=128',
       'format=${pixelFormat.name}',
     ].join(',');
@@ -41,7 +41,7 @@ class ImageGenerator extends Generator<ImageSpec> {
   @override
   String getFileName(ImageSpec spec) {
     return '${spec.codec.name}_'
-        '${spec.size.value}_'
+        '${spec.size.label}_'
         '${spec.pixelFormat.name}'
         '.${spec.codec.extension}';
   }

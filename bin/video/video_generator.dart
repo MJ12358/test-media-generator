@@ -23,7 +23,7 @@ class VideoGenerator extends Generator<VideoSpec> {
   String _getSource(Size size, FrameRate frameRate) {
     return <String>[
       'testsrc=duration=$duration',
-      'size=${size.value}',
+      'size=${size.label}',
       'rate=${frameRate.value}',
     ].join(':');
   }
@@ -44,7 +44,7 @@ class VideoGenerator extends Generator<VideoSpec> {
   @override
   String getFileName(VideoSpec spec) {
     return '${spec.codec.name}_'
-        '${spec.size.value}_'
+        '${spec.size.label}_'
         '${spec.frameRate.label}_'
         '${spec.pixelFormat.name}'
         '.${spec.codec.extension}';
