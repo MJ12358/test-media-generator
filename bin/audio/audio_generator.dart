@@ -11,30 +11,39 @@ class AudioGenerator extends Generator<AudioSpec> {
     duration = Config.duration;
   }
 
+  /// Generates a sine wave audio expression for each channel
+  /// based on the channel layout and duration.
+  String _getSource(ChannelLayout channels) {
+    // final double segment = duration / channels.count;
+    final List<String> expr = <String>[];
+    for (int i = 0; i < channels.count; i++) {
+      // final String start = (i * segment).toStringAsFixed(6);
+      // final String end = ((i + 1) * segment).toStringAsFixed(6);
+      final SpeakerPosition position = channels.positions[i];
+      // expr.add('${position.sineExpr()}*between(t,$start,$end)*0.8');
+      expr.add(position.sineExpr());
+    }
+    return 'aevalsrc=${expr.join('|')}';
+  }
+
   /// Generates a sine wave audio filter based on the
   /// channel layout and sample rate.
   String _getAudioFilter(ChannelLayout channels, SampleRate sampleRate) {
-    final double segment = duration / channels.count;
-    final List<String> expr = <String>[];
-
-    for (int i = 0; i < channels.count; i++) {
-      final double start = i * segment;
-      final double end = (i + 1) * segment;
-      final SpeakerPosition position = channels.positions[i];
-
-      expr.add('${position.sineExpr()}*between(t,$start,$end)');
-    }
-
-    return 'aevalsrc="${expr.join('|')}:s=${sampleRate.value}:d=$duration"';
+    final String src = _getSource(channels);
+    return <String>[
+      src,
+      'sample_rate=${sampleRate.value}',
+      'duration=$duration',
+    ].join(':');
   }
 
   @override
-  String getFileName(AudioSpec spec) {
+  String getFilename(AudioSpec spec) {
     return '${spec.codec.name}_'
-        '${spec.bitDepth.name}_'
-        '${spec.bitRate.name}_'
+        '${spec.bitDepth.label}_'
+        '${spec.bitRate.label}_'
         '${spec.channels.label}_'
-        '${spec.sampleRate.name}'
+        '${spec.sampleRate.label}'
         '.${spec.codec.extension}';
   }
 
@@ -60,8 +69,9 @@ class AudioGenerator extends Generator<AudioSpec> {
     cmd.add(<String>['-c:a', spec.codec.encoder]);
 
     // Add bit depth if supported
+    // TODO: This errors for some codecs that support the bit depth
     // if (spec.codec.bitDepths.contains(spec.bitDepth)) {
-    //   cmd.add(<String>['-sample_fmt', spec.bitDepth.ffmpegName]);
+    //   cmd.add(<String>['-sample_fmt', spec.bitDepth.format]);
     // }
 
     // Add bit rate
