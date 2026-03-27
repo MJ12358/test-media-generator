@@ -35,7 +35,5 @@ enum SampleRate {
   final int value;
 
   /// The friendly label of the sample rate, such as '96kHz'.
-  String get label {
-    return '${value ~/ 1000}kHz';
-  }
+  String get label => '${value ~/ 1000}kHz';
 }

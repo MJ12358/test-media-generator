@@ -61,5 +61,5 @@ enum Size {
   final int height;
 
   /// The actual dimensions of the size, represented as a string.
-  String get value => '${width}x$height';
+  String get label => '${width}x$height';
 }

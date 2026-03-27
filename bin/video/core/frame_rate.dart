@@ -26,7 +26,5 @@ enum FrameRate {
   final int value;
 
   /// The friendly label of the frame rate, such as '30fps'.
-  String get label {
-    return '${value}fps';
-  }
+  String get label => '${value}fps';
 }

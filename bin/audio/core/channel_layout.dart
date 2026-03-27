@@ -46,9 +46,7 @@ enum ChannelLayout {
   final List<SpeakerPosition> positions;
 
   /// The friendly label of the channels, such as '2ch'.
-  String get label {
-    return '${count}ch';
-  }
+  String get label => '${count}ch';
 
   /// The integer value of the channels.
   ///

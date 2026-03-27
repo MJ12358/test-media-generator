@@ -42,7 +42,5 @@ enum BitRate {
   final int value;
 
   /// The friendly label of the bit rate, such as '128kbps'.
-  String get label {
-    return '${value}kbps';
-  }
+  String get label => '${value}kbps';
 }

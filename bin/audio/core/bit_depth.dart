@@ -36,7 +36,5 @@ enum BitDepth {
   final String format;
 
   /// The friendly label of the bit depth, such as '16bit'.
-  String get label {
-    return '${value}bit';
-  }
+  String get label => '${value}bit';
 }
