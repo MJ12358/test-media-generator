@@ -39,7 +39,7 @@ class ImageGenerator extends Generator<ImageSpec> {
   }
 
   @override
-  String getFileName(ImageSpec spec) {
+  String getFilename(ImageSpec spec) {
     return '${spec.codec.name}_'
         '${spec.size.label}_'
         '${spec.pixelFormat.name}'

@@ -42,7 +42,7 @@ class VideoGenerator extends Generator<VideoSpec> {
   }
 
   @override
-  String getFileName(VideoSpec spec) {
+  String getFilename(VideoSpec spec) {
     return '${spec.codec.name}_'
         '${spec.size.label}_'
         '${spec.frameRate.label}_'

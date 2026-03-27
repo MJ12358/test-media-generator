@@ -19,7 +19,7 @@ abstract class Generator<T> {
   final String outputDir;
 
   /// Returns the file name for the given specification.
-  String getFileName(T spec);
+  String getFilename(T spec);
 
   /// Gets the command to generate the media file based on the specification.
   Command getCommand(T spec, String outputPath, String filename);
@@ -29,7 +29,7 @@ abstract class Generator<T> {
 
   /// Encodes a media file based on the provided specification.
   Future<void> encode(T spec) async {
-    final String filename = getFileName(spec);
+    final String filename = getFilename(spec);
     final String outputPath = '$outputDir/$filename';
 
     if (File(outputPath).existsSync()) {
