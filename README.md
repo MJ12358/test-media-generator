@@ -6,9 +6,9 @@ Uses ffmpeg to generate test audio, images and video.
 
 - Linux
 
-```bash
-apt install ffmpeg
-```
+  ```bash
+  apt install ffmpeg
+  ```
 
 - Windows
 
@@ -17,6 +17,10 @@ apt install ffmpeg
 ## Install Dart
 
 - [Dart](https://dart.dev/get-dart)
+
+## Install eSpeak (for TTS)
+
+- [eSpeak](https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md)
 
 ## Run
 
