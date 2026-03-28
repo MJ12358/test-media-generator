@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dart_logz/dart_logz.dart';
@@ -22,7 +23,7 @@ abstract class Generator<T> {
   String getFilename(T spec);
 
   /// Gets the command to generate the media file based on the specification.
-  Command getCommand(T spec, String outputPath, String filename);
+  FutureOr<Command> getCommand(T spec, String outputPath, String filename);
 
   /// Generates the media files based on the defined configuration.
   Future<void> generate();
@@ -38,11 +39,13 @@ abstract class Generator<T> {
     }
 
     try {
-      final Command cmd = getCommand(spec, outputPath, filename);
+      final Command cmd = await getCommand(spec, outputPath, filename);
       logz.i('Encoding: $filename');
       await cmd.run(filename);
     } on EncodingException catch (e) {
       logz.e(e.message);
+    } on ProcessException catch (e) {
+      logz.e('ProcessException: ${e.message}');
     } catch (e) {
       logz.e('Unknown Exception: $filename: $e');
     } finally {
