@@ -1,5 +1,7 @@
 library audio;
 
+import 'dart:io';
+
 import 'package:dart_logz/dart_logz.dart';
 import 'package:path/path.dart' as p;
 
@@ -22,4 +24,5 @@ part 'core/bit_rate.dart';
 part 'core/channel_layout.dart';
 part 'core/sample_rate.dart';
 part 'core/speaker_position.dart';
+part 'core/tts_service.dart';
 part 'spec.dart';
