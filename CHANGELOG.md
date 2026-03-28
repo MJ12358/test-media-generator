@@ -1,5 +1,13 @@
 # Test Media Generator
 
+## [1.2.0]
+
+- Introduce 'TtsService'.
+- Add name to 'ChannelLayout'.
+- Add 'spokenName` to audio classes and enums.
+- Add validation to commands.
+- Update 'Generator' to account for 'FutureOr'.
+
 ## [1.1.0]
 
 - Add 'format' to 'BitDepth'.
