@@ -37,4 +37,7 @@ enum BitDepth {
 
   /// The friendly label of the bit depth, such as '16bit'.
   String get label => '${value}bit';
+
+  /// A human-readable name for the bit depth, used in spoken descriptions.
+  String get spokenName => '$value bit';
 }

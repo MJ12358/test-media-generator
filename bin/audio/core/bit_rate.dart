@@ -43,4 +43,7 @@ enum BitRate {
 
   /// The friendly label of the bit rate, such as '128kbps'.
   String get label => '${value}kbps';
+
+  /// A human-readable name for the bit rate, used in spoken descriptions.
+  String get spokenName => '$value kilobits per second';
 }

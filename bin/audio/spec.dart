@@ -27,4 +27,15 @@ class AudioSpec {
     required this.channels,
     required this.sampleRate,
   });
+
+  /// Converts the audio specifications into a human-readable string format.
+  String toSpokenString() {
+    return <String>[
+      codec.spokenName,
+      bitDepth.spokenName,
+      bitRate.spokenName,
+      channels.spokenName,
+      sampleRate.spokenName,
+    ].join(', ');
+  }
 }

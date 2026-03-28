@@ -56,4 +56,9 @@ enum ChannelLayout {
   /// This is equal to the length of the positions list,
   /// which defines the number of discrete audio signals.
   int get count => positions.length;
+
+  /// A human-readable name for the channel layout, used in spoken descriptions.
+  String get spokenName {
+    return '$count ${count == 1 ? 'channel' : 'channels'}';
+  }
 }

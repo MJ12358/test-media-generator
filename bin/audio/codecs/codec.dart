@@ -8,6 +8,13 @@ abstract class Codec {
   /// The name of the codec.
   String get name;
 
+  /// A human-readable name for the codec, used in spoken descriptions.
+  /// Defaults to the name in uppercase with commas
+  /// (e.g., "AAC" -> "A, A, C").
+  String get spokenName {
+    return name.toUpperCase().split('').join(', ');
+  }
+
   /// The file extension associated with this codec.
   String get extension;
 

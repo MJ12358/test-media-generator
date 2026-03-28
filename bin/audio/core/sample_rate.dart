@@ -36,4 +36,7 @@ enum SampleRate {
 
   /// The friendly label of the sample rate, such as '96kHz'.
   String get label => '${value ~/ 1000}kHz';
+
+  /// A human-readable name for the sample rate, used in spoken descriptions.
+  String get spokenName => '${value ~/ 1000} kilohertz';
 }
