@@ -9,11 +9,11 @@ part of audio;
 enum ChannelLayout {
   /// Mono (1 channel) has a single audio signal,
   /// typically used for voice recordings.
-  mono(<SpeakerPosition>[SpeakerPosition.fl]),
+  mono(<SpeakerPosition>[SpeakerPosition.fl], 'mono'),
 
   /// Stereo (2 channels) has two audio signals,
   /// typically used for music and general audio.
-  stereo(<SpeakerPosition>[SpeakerPosition.fl, SpeakerPosition.fr]),
+  stereo(<SpeakerPosition>[SpeakerPosition.fl, SpeakerPosition.fr], 'stereo'),
 
   /// 5.1 Surround (6 channels) has six audio signals,
   /// typically used for home theater systems.
@@ -24,7 +24,7 @@ enum ChannelLayout {
     SpeakerPosition.lfe,
     SpeakerPosition.bl,
     SpeakerPosition.br,
-  ]),
+  ], '5.1'),
 
   /// 7.1 Surround (8 channels) has eight audio signals,
   /// typically used for high-end home theater systems.
@@ -37,13 +37,16 @@ enum ChannelLayout {
     SpeakerPosition.br,
     SpeakerPosition.sl,
     SpeakerPosition.sr,
-  ]);
+  ], '7.1');
 
   /// {@macro test_media_generator.audio.ChannelLayout}
-  const ChannelLayout(this.positions);
+  const ChannelLayout(this.positions, this.name);
 
   /// A list of speaker positions for this channel layout.
   final List<SpeakerPosition> positions;
+
+  /// The name of the channel layout, such as 'stereo' or '5.1'.
+  final String name;
 
   /// The friendly label of the channels, such as '2ch'.
   String get label => '${count}ch';
