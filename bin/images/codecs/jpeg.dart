@@ -7,26 +7,23 @@ part of images;
 /// https://en.wikipedia.org/wiki/JPEG
 /// {@endtemplate}
 class JPEG extends Codec {
-  final bool _progressive;
+  final String _name;
+  final List<String> _encoderFlags;
 
   /// {@macro test_media_generator.JPEG}
-  factory JPEG() {
-    return JPEG._(progressive: false);
-  }
+  JPEG() : _name = 'jpeg', _encoderFlags = <String>['-q:v', '2'];
 
   /// {@macro test_media_generator.JPEG}
   ///
   /// This constructor creates a progressive JPEG.
   /// In which data is compressed in multiple passes of
   /// progressively higher detail.
-  factory JPEG.progressive() {
-    return JPEG._(progressive: true);
-  }
-
-  JPEG._({required bool progressive}) : _progressive = progressive;
+  JPEG.progressive()
+    : _name = 'jpeg_progressive',
+      _encoderFlags = <String>['-progressive', '1', '-q:v', '2'];
 
   @override
-  String get name => _progressive ? 'jpeg_progressive' : 'jpeg';
+  String get name => _name;
 
   @override
   String get extension => 'jpg';
@@ -39,11 +36,5 @@ class JPEG extends Codec {
   ];
 
   @override
-  List<String> get encoderFlags {
-    if (_progressive) {
-      return <String>['-progressive', '1', '-q:v', '2'];
-    } else {
-      return <String>['-q:v', '2'];
-    }
-  }
+  List<String> get encoderFlags => _encoderFlags;
 }

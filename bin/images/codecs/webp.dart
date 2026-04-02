@@ -9,55 +9,40 @@ part of images;
 /// https://en.wikipedia.org/wiki/WebP
 /// {@endtemplate}
 class WEBP extends Codec {
-  final bool _lossless;
-  final int _quality;
+  final String _name;
+  final List<String> _encoderFlags;
+  final List<PixelFormat> _pixelFormats;
 
   /// {@macro test_media_generator.WEBP}
   ///
   /// This constructor defines a lossy WEBP configuration
   /// with a default quality of 75.
-  factory WEBP.lossy() {
-    return WEBP._(lossless: false, quality: 75);
-  }
+  WEBP.lossy()
+    : _name = 'webp_lossy',
+      _encoderFlags = <String>['-quality', '75'],
+      _pixelFormats = <PixelFormat>[PixelFormat.yuv420p];
 
   /// {@macro test_media_generator.WEBP}
   ///
   /// This constructor defines a lossless WEBP configuration
   /// with a quality of 100.
-  factory WEBP.lossless() {
-    return WEBP._(lossless: true, quality: 100);
-  }
-
-  WEBP._({required bool lossless, required int quality})
-    : _lossless = lossless,
-      _quality = quality;
+  WEBP.lossless()
+    : _name = 'webp_lossless',
+      _encoderFlags = <String>['-lossless', '1', '-quality', '100'],
+      _pixelFormats = <PixelFormat>[PixelFormat.rgb24, PixelFormat.rgba];
 
   @override
-  String get name {
-    return _lossless ? 'webp_lossless' : 'webp_lossy';
-  }
+  String get name => _name;
 
   @override
   String get extension => 'webp';
 
   @override
-  List<PixelFormat> get pixelFormats {
-    if (_lossless) {
-      return <PixelFormat>[PixelFormat.rgb24, PixelFormat.rgba];
-    } else {
-      return <PixelFormat>[PixelFormat.yuv420p];
-    }
-  }
+  List<PixelFormat> get pixelFormats => _pixelFormats;
 
   @override
   String get encoder => 'libwebp';
 
   @override
-  List<String> get encoderFlags {
-    if (_lossless) {
-      return <String>['-lossless', '1', '-quality', '$_quality'];
-    } else {
-      return <String>['-quality', '$_quality'];
-    }
-  }
+  List<String> get encoderFlags => _encoderFlags;
 }

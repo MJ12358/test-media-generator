@@ -7,12 +7,6 @@ part of images;
 /// https://en.wikipedia.org/wiki/Image_resolution
 /// {@endtemplate}
 enum Size {
-  /// The smallest possible size.
-  s1(1, 1),
-
-  /// A common thumbnail size.
-  s16(16, 16),
-
   /// A common size for small images and icons.
   s256(256, 256),
 

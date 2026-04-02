@@ -26,12 +26,5 @@ class BMP extends Codec {
   @override
   /// BMP is an uncompressed format, so we use very low resolutions
   /// to keep file sizes manageable.
-  List<Size> get sizes => <Size>[
-    Size.s1,
-    Size.s16,
-    Size.s256,
-    Size.s512,
-    Size.s1080,
-    Size.s1080v,
-  ];
+  List<Size> get sizes => <Size>[Size.s256, Size.s512, Size.s1080, Size.s1080v];
 }
