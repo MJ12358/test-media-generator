@@ -7,8 +7,16 @@ import 'images/images.dart';
 import 'video/video.dart';
 
 void main(List<String> arguments) async {
-  final CliOptions options = Cli.parse(arguments);
-  final Pubspec pub = Pubspec();
+  late final CliOptions options;
+  late final Pubspec pub;
+
+  try {
+    options = Cli.parse(arguments);
+    pub = Pubspec();
+  } catch (e) {
+    logz.e('Exception: $e');
+    return;
+  }
 
   try {
     // Process the parsed arguments.
