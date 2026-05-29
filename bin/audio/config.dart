@@ -1,4 +1,4 @@
-part of audio;
+part of 'audio.dart';
 
 /// Defines the configuration for the audio generation process.
 class Config {

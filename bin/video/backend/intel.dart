@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.Intel}
 /// This defines the Intel Quick Sync Video (QSV) backend, which uses

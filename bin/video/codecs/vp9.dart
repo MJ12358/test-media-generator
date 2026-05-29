@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.VP9}
 /// This defines the VP9 video codec, which is an open and royalty-free

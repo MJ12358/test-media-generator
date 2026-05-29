@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.Nvidia}
 /// This defines the NVIDIA NVENC backend, which uses hardware acceleration for

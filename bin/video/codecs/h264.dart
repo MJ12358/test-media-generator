@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.H264}
 /// This defines the H264 video codec, which is a widely used video coding

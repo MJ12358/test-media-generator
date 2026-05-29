@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.ALAC}
 /// This defines the ALAC audio codec,

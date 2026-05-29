@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.Vorbis}
 /// This defines the Vorbis audio codec,

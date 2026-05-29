@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.Vaapi}
 /// This defines the VAAPI backend, which uses hardware acceleration for video

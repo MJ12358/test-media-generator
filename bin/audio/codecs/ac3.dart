@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.AC3}
 /// This defines the AC3 audio codec,

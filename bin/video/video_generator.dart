@@ -1,4 +1,4 @@
-part of video;
+part of 'video.dart';
 
 /// {@template test_media_generator.VideoGenerator}
 /// This class is responsible for generating test video files.

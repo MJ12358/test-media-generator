@@ -1,4 +1,4 @@
-part of video;
+part of 'video.dart';
 
 /// This class maps a codec and backend to the
 /// appropriate encoder name and filter to use with FFmpeg.

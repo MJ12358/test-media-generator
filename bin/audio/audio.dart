@@ -1,4 +1,4 @@
-library audio;
+library;
 
 import 'dart:io';
 

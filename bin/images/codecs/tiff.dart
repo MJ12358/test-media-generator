@@ -1,4 +1,4 @@
-part of images;
+part of '../images.dart';
 
 /// {@template test_media_generator.TIFF}
 /// This defines the TIFF image codec,

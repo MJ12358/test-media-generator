@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.FLAC}
 /// This defines the FLAC audio codec,

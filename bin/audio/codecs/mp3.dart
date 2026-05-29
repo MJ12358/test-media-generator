@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.MP3}
 /// This defines the MP3 audio codec,
@@ -23,7 +23,7 @@ class MP3 extends Codec {
     return MP3._(isVbr: true);
   }
 
-  MP3._({required bool isVbr}) : _isVbr = isVbr;
+  MP3._({required this._isVbr});
 
   @override
   String get name {

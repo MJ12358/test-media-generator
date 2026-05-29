@@ -1,4 +1,4 @@
-part of images;
+part of '../images.dart';
 
 /// {@template test_media_generator.WEBP}
 /// This defines the WEBP image codec,

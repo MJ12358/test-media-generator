@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.MJPEG}
 /// This defines the MJPEG video codec, which is a simple video format that

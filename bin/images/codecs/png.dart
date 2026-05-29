@@ -1,4 +1,4 @@
-part of images;
+part of '../images.dart';
 
 /// {@template test_media_generator.PNG}
 /// This defines the PNG image codec,

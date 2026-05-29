@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.H265}
 /// This defines the H265 video codec, which is a successor to H264 and offers

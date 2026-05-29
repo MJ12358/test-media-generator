@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.video.PixelFormat}
 /// This defines the pixel formats that can be used for encoding video frames.

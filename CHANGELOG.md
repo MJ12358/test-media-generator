@@ -1,5 +1,10 @@
 # Test Media Generator
 
+## [1.3.0]
+
+- Update Dart.
+- Fix lints.
+
 ## [1.2.0]
 
 - Introduce 'TtsService'.

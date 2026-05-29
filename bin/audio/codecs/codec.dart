@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.audio.Codec}
 /// This file defines the abstract base class [Codec]

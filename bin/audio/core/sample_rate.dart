@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.audio.SampleRate}
 /// This defines the various sample rates used in audio processing.

@@ -1,4 +1,4 @@
-part of audio;
+part of 'audio.dart';
 
 /// {@template test_media_generator.audio.AudioSpec}
 /// This class represents the specifications for generating a test audio file.

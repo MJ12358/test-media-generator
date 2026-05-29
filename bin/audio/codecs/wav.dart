@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.WAV}
 /// This defines the WAV audio codec,
@@ -24,9 +24,7 @@ class WAV extends Codec {
     return WAV._(is16Bit: false, is24Bit: true);
   }
 
-  WAV._({required bool is16Bit, required bool is24Bit})
-    : _is16Bit = is16Bit,
-      _is24Bit = is24Bit;
+  WAV._({required this._is16Bit, required this._is24Bit});
 
   @override
   String get name {

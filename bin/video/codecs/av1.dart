@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.AV1}
 /// This defines the AV1 video codec, which is an open and royalty-free

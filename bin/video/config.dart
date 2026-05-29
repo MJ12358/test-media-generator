@@ -1,4 +1,4 @@
-part of video;
+part of 'video.dart';
 
 /// Defines the configuration for the video generation process.
 class Config {

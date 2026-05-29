@@ -1,4 +1,4 @@
-part of audio;
+part of 'audio.dart';
 
 /// {@template test_media_generator.AudioGenerator}
 /// This class is responsible for generating test audio files.
@@ -99,7 +99,7 @@ class AudioGenerator extends Generator<AudioSpec> {
     cmd.add(<String>['-c:a', spec.codec.encoder]);
 
     // Add bit depth if supported
-    // TODO: This errors for some codecs that support the bit depth
+    // This errors for some codecs that support the bit depth
     // if (spec.codec.bitDepths.contains(spec.bitDepth)) {
     //   cmd.add(<String>['-sample_fmt', spec.bitDepth.format]);
     // }

@@ -1,4 +1,4 @@
-part of images;
+part of 'images.dart';
 
 /// {@template test_media_generator.images.ImageSpec}
 /// This class represents the specifications for generating a test image.

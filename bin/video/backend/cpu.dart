@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.Cpu}
 /// This defines the CPU backend, which uses software encoding and decoding.

@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.audio.SpeakerPosition}
 /// This defines the various speaker positions used in audio processing.

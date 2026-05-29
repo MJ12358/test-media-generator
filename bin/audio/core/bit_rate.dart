@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.audio.BitRate}
 /// This defines the bit rate of an audio file, which is the number of bits

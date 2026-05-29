@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.video.Codec}
 /// This file defines the abstract base class [Codec]

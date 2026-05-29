@@ -1,4 +1,4 @@
-part of images;
+part of '../images.dart';
 
 /// {@template test_media_generator.image.PixelFormat}
 /// This defines the pixel formats that can be used for encoding images.

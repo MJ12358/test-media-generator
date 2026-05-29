@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.MPEG2}
 /// This defines the MPEG2 video codec, which is a widely used video coding

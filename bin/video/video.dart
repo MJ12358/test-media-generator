@@ -1,4 +1,4 @@
-library video;
+library;
 
 import 'dart:io';
 

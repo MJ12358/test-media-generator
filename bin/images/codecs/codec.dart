@@ -1,4 +1,4 @@
-part of images;
+part of '../images.dart';
 
 /// {@template test_media_generator.images.Codec}
 /// This file defines the abstract base class [Codec]

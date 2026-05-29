@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.audio.BitDepth}
 /// This defines the various bit depths used in audio processing.

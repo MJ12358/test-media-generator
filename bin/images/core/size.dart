@@ -1,4 +1,4 @@
-part of images;
+part of '../images.dart';
 
 /// {@template test_media_generator.image.Size}
 /// A collection of predefined sizes for generating test image files.

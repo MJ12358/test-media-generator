@@ -1,4 +1,4 @@
-part of images;
+part of 'images.dart';
 
 /// Defines the configuration for the image generation process.
 class Config {

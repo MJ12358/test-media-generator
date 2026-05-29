@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.video.Size}
 /// A collection of predefined sizes for generating test video files.

@@ -1,4 +1,4 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.audio.ChannelLayout}
 /// This defines the various channel configurations used in audio processing.

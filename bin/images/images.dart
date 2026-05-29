@@ -1,4 +1,4 @@
-library images;
+library;
 
 import 'package:dart_logz/dart_logz.dart';
 import 'package:path/path.dart' as p;

@@ -1,13 +1,14 @@
-part of audio;
+part of '../audio.dart';
 
 /// {@template test_media_generator.TtsService}
 /// Responsible for generating speech audio from text.
 /// {@endtemplate}
 class TtsService {
   /// {@macro test_media_generator.TtsService}
-  TtsService({required String outputDir, String binary = 'espeak-ng'})
-    : _outputDir = '$outputDir/tmp',
-      _binary = binary {
+  TtsService({
+    required String outputDir,
+    this._binary = 'espeak-ng',
+  }) : _outputDir = '$outputDir/tmp' {
     Directory(_outputDir).createSync(recursive: true);
   }
 

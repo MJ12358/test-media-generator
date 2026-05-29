@@ -1,4 +1,4 @@
-part of video;
+part of '../video.dart';
 
 /// {@template test_media_generator.video.FrameRate}
 /// This defines the various frame rates used in video processing.

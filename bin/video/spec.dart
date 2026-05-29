@@ -1,4 +1,4 @@
-part of video;
+part of 'video.dart';
 
 /// {@template test_media_generator.video.VideoSpec}
 /// This class represents the specifications for generating a test video.
